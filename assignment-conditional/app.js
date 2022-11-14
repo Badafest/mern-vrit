@@ -35,3 +35,18 @@ const elementCount = (array) => {
 //examples
 console.log(elementCount([1, 2, 3, 1])); //[{input: 1, count: 2}, {input: 2, count: 1}, {input: 3, count: 1}]
 console.log(elementCount(["a", "b", "a", "c", "c", "b", "b"])); //[ { input: 'a', count: 2 }, { input: 'b', count: 3 }, { input: 'c', count: 2 }]
+
+//FizzBuzz using Map
+const fizzBuzzMap = (maxNumber) =>
+  [...Array(maxNumber - 1).keys()].map((integer) =>
+    (integer + 1) % 3
+      ? (integer + 1) % 5
+        ? `${integer + 1}`
+        : "Buzz"
+      : (integer + 1) % 5
+      ? "Fizz"
+      : "FizzBuzz"
+  );
+
+console.log(fizzBuzzMap(3));
+console.log(fizzBuzzMap(10));
