@@ -1,0 +1,45 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.toast {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  padding-top: 48vh;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 1;
+  text-align: center;
+}
+
+.toast-message {
+  font-size: 18px;
+  color: red;
+  margin: 6px;
+}
+
+button {
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.toast button {
+  height: 32px;
+  width: 32px;
+  background-color: brown;
+  color: white;
+  font-weight: bold;
+}
+
+.toast button:hover {
+  box-shadow: rgba(165, 42, 42, 0.5) 0px 0px 3px 1px;
+}
