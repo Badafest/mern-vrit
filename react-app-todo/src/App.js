@@ -19,25 +19,24 @@ function TodoAppCard() {
   ];
 
   const [todos, setTodos] = useState(listData);
-  const [pending, setPending] = useState(
-    todos.filter((todo) => !todo.crossed).length
-  );
 
   const onAddTodo = (todo) => {
     if (todo.title.length) {
       setTodos((prev) => [...prev, todo]);
-      setPending((prev) => prev + 1);
     }
   };
 
-  const onCrossItem = (crossed) => {
-    console.log(todos);
-    setPending((prev) => (crossed ? prev - 1 : prev + 1));
+  const onCrossItem = (index) => {
+    const crossed = !todos[index].crossed;
+    setTodos((prev) =>
+      prev.map((todo, idx) =>
+        idx === index ? { ...todo, crossed } : { ...todo }
+      )
+    );
   };
 
   const onClearAll = () => {
     setTodos((_) => []);
-    setPending((_) => 0);
   };
 
   return (
@@ -45,7 +44,7 @@ function TodoAppCard() {
       <AppTitle title={appTitle} />
       <AddTodo onAddTodo={onAddTodo} />
       <TodoList todos={todos} onCrossItem={onCrossItem} />
-      <Footer pending={pending} onClearAll={onClearAll} />
+      <Footer todos={todos} onClearAll={onClearAll} />
     </div>
   );
 }
@@ -78,32 +77,28 @@ function AddTodo({ onAddTodo }) {
 }
 
 function TodoList({ todos, onCrossItem }) {
+  console.log(todos);
   return (
     <ul className="todo-list">
       {todos.map((todo, index) => (
-        <TodoListItem key={index} todo={todo} onCrossItem={onCrossItem} />
+        <li
+          key={index}
+          style={
+            todo.crossed
+              ? { textDecoration: "rgba(0,0,0,0.5) line-through" }
+              : {}
+          }
+          onClick={() => onCrossItem(index)}
+        >
+          {todo.title}
+        </li>
       ))}
     </ul>
   );
 }
 
-function TodoListItem({ todo, onCrossItem }) {
-  const [crossed, setCrossed] = useState(todo.crossed);
-  return (
-    <li
-      style={crossed ? { textDecoration: "rgba(0,0,0,0.5) line-through" } : {}}
-      onClick={() => {
-        todo.crossed = !crossed; // Is it good practice? If not, what is alternative?
-        onCrossItem(!crossed);
-        setCrossed((prev) => !prev);
-      }}
-    >
-      {todo.title}
-    </li>
-  );
-}
-
-function Footer({ pending, onClearAll }) {
+function Footer({ todos, onClearAll }) {
+  const pending = todos.filter((todo) => !todo.crossed).length;
   return (
     <footer>
       <span>You have {pending} pending tasks</span>
