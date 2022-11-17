@@ -5,7 +5,7 @@ function ToastMessage(props) {
 
   //useEffect without dependency array so that new timeout is created for each toast message
   useEffect(() => {
-    const timeOut = setTimeout(clearToast, 500000);
+    const timeOut = setTimeout(clearToast, 5000);
     return () => clearTimeout(timeOut);
   });
 

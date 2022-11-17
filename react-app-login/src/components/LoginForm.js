@@ -60,8 +60,8 @@ function LoginForm(props) {
           />
         </div>
         <div className="btn-container">
-          <button type="submit">Login</button>
           <button type="reset">Clear</button>
+          <button type="submit">Login</button>
         </div>
       </form>
       {toast.length ? (
