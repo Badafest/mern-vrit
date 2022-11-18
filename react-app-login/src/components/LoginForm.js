@@ -4,6 +4,7 @@ import ToastMessage from "../components/Toast";
 function LoginForm(props) {
   const { correctUsername, correctPassword } = props;
   const [toast, setToast] = useState("");
+  const [toastColor, setToastColor] = useState("blue");
 
   //just trying out uncontrolled inputs
   const username = useRef();
@@ -27,12 +28,15 @@ function LoginForm(props) {
         username.current.value === correctUsername &&
         password.current.value === correctPassword
       ) {
-        setToast("Congratulations! You are now logged in.", "darkgreen");
+        setToast("Congratulations! You are now logged in.");
+        setToastColor("darkgreen");
       } else {
-        setToast("Sorry, but couldn't log you in.", "brown");
+        setToast("Sorry, but couldn't log you in.");
+        setToastColor("brown");
       }
     } else {
-      setToast("Username and Password can't be empty!", "brown");
+      setToast("Username and Password can't be empty!");
+      setToastColor("brown");
     }
   };
 
@@ -65,7 +69,11 @@ function LoginForm(props) {
         </div>
       </form>
       {toast.length ? (
-        <ToastMessage message={toast} clearToast={clearToast} />
+        <ToastMessage
+          message={toast}
+          color={toastColor}
+          clearToast={clearToast}
+        />
       ) : (
         <></>
       )}
