@@ -3,6 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  backdrop-filter: blur(3px);
 }
 
 .toast {
@@ -20,7 +22,6 @@
 
 .toast-message {
   font-size: 18px;
-  color: red;
   margin: 6px;
 }
 
@@ -56,6 +57,19 @@ button {
 
 .input-container > * {
   margin: 2px;
+}
+
+form {
+  background-color: rgb(245, 250, 255);
+  padding: 12px;
+  border-radius: 6px;
+  box-shadow: rgba(205, 205, 205, 0.5) 0 0 2px 3px;
+}
+
+form .btn-container {
+  margin: 6px 0;
+  display: flex;
+  justify-content: space-between;
 }
 
 form button {

@@ -27,12 +27,12 @@ function LoginForm(props) {
         username.current.value === correctUsername &&
         password.current.value === correctPassword
       ) {
-        setToast("Congratulations! You are now logged in.");
+        setToast("Congratulations! You are now logged in.", "darkgreen");
       } else {
-        setToast("Sorry, but couldn't log you in.");
+        setToast("Sorry, but couldn't log you in.", "brown");
       }
     } else {
-      setToast("Username and Password can't be empty!");
+      setToast("Username and Password can't be empty!", "brown");
     }
   };
 
