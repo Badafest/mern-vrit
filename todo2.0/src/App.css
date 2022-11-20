@@ -1,0 +1,123 @@
+.App {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  padding: 24px;
+  border: 3px solid rgb(210, 230, 250);
+  border-radius: 12px;
+  background-color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+.title {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.add-todo-form {
+  text-align: center;
+  padding: 6px;
+}
+
+.add-todo-form input,
+button {
+  margin: 0 4px;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: none;
+  outline: 2px solid rgb(210, 230, 250);
+  border-radius: 6px;
+}
+
+.add-todo-form input:active,
+.add-todo-form input:focus {
+  box-shadow: rgb(210, 230, 250) 0px 0px 6px 4px;
+}
+
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 12px 3px;
+  text-align: left;
+  align-items: flex-end;
+}
+
+.input-row > * {
+  flex-grow: 1;
+}
+
+.input-row > button {
+  flex-grow: 0.25;
+}
+
+button {
+  background-color: rgb(130, 130, 255);
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: rgb(185, 245, 255) 0px 0px 6px 4px;
+  outline: none;
+  background-color: rgb(12, 159, 196);
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0 6px;
+  overflow-y: auto;
+}
+
+.todo-list li {
+  padding: 6px 12px 12px;
+  border-radius: 6px;
+  margin: 2px;
+  background-color: rgb(210, 240, 255);
+  cursor: pointer;
+}
+
+.todo-btn-container {
+  margin: 6px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.crossed > .item-title,
+.crossed > .item-subtitle {
+  text-decoration: rgba(0, 0, 0, 0.5) line-through;
+}
+
+.item-title {
+  font-size: large;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.item-subtitle {
+  margin: 3px;
+  margin-bottom: 12px;
+  font-weight: lighter;
+}
+
+.meta-tag {
+  font-size: small;
+  background-color: rgb(130, 130, 255);
+  color: white;
+  border-radius: 3px;
+  padding: 4px 6px;
+  margin: 3px;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
