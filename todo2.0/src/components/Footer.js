@@ -3,7 +3,9 @@ const TodoFooter = ({ todos, onClearAll }) => {
 
   return (
     <footer>
-      <span>{`You have ${pending ? pending : "no"} pending tasks.`}</span>
+      <span>{`You have ${pending ? pending : "no"} pending ${
+        pending > 1 ? "tasks" : "task"
+      }.`}</span>
       <button onClick={onClearAll}>Delete All</button>
     </footer>
   );

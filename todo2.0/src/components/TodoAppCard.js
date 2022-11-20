@@ -26,7 +26,7 @@ const TodoAppCard = () => {
             (todo.userId && `User ${todo.userId}`) ||
             "Anonymous",
           "🕒": `${
-            todo.createdAt ||
+            todo.updatedAt ||
             new Date("Fri Nov 16 2022 13:58:21 GMT+0545 (Nepal Time)").getTime()
           }`,
         },
