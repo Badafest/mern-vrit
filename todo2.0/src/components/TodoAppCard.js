@@ -1,43 +1,20 @@
-import { useEffect, useState } from "react";
-
 import AppTitle from "./TodoAppCard/AppTitle";
 import AddTodo from "./TodoAppCard/AddTodo";
 import TodoList from "./TodoAppCard/TodoList";
 import TodoFooter from "./Footer";
 
-import fetchTodos from "../functions/fetchTodos";
+import useFetch from "../functions/useFetch";
+import { useEffect, useState } from "react";
 
 const TodoAppCard = () => {
   const appTitle = "Todo App";
-  const URL = "https://jsonplaceholder.typicode.com/todos";
 
+  const [data, loading] = useFetch();
   const [todos, setTodos] = useState([]);
-  const [dataLoading, setDataLoading] = useState(true);
-
-  const setTodosAfterFetch = (data) => {
-    setTodos(
-      data.map((todo) => ({
-        title: `Todo Item ${todo.id}`,
-        subtitle: todo.title,
-        crossed: todo.completed,
-        meta: {
-          "🖊":
-            todo.author ||
-            (todo.userId && `User ${todo.userId}`) ||
-            "Anonymous",
-          "🕒": `${
-            todo.updatedAt ||
-            new Date("Fri Nov 16 2022 13:58:21 GMT+0545 (Nepal Time)").getTime()
-          }`,
-        },
-      }))
-    );
-    setDataLoading((_) => false);
-  };
 
   useEffect(() => {
-    fetchTodos(URL, setTodosAfterFetch);
-  }, []);
+    setTodos(data);
+  }, [data]);
 
   const onAddTodo = (todo) => {
     if (todo.title.length) {
@@ -55,11 +32,7 @@ const TodoAppCard = () => {
   };
 
   const onEditItem = (todo, index) => {
-    setTodos((prev) => [
-      ...[...prev].splice(0, index),
-      todo,
-      ...[...prev].splice(index + 1, prev.length),
-    ]);
+    setTodos((prev) => prev.map((data, idx) => (idx === index ? todo : data)));
   };
 
   const onClearAll = () => {
@@ -67,10 +40,7 @@ const TodoAppCard = () => {
   };
 
   const onDeleteItem = (index) => {
-    setTodos((prev) => [
-      ...[...prev].splice(0, index),
-      ...[...prev].splice(index + 1, prev.length),
-    ]);
+    setTodos((prev) => prev.filter((_, idx) => idx !== index));
   };
 
   return (
@@ -83,7 +53,7 @@ const TodoAppCard = () => {
         onEditItem={onEditItem}
         onDeleteItem={onDeleteItem}
       />
-      {dataLoading ? (
+      {loading ? (
         <div>Loading Data...</div>
       ) : (
         <TodoFooter todos={todos} onClearAll={onClearAll} />
