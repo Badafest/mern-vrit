@@ -22,4 +22,29 @@ const TimeAgo = ({ thenTime }) => {
   return <span className="meta-tag">{`🕒 ${timeAgo}`}</span>;
 };
 
-export { Input, TimeAgo };
+const TodoDisplay = (todo) => (
+  <>
+    <div className="item-title">{todo.title}</div>
+
+    {todo.subtitle ? (
+      <div className="item-subtitle">{todo.subtitle}</div>
+    ) : null}
+
+    {todo.meta ? (
+      <div className="item-meta">
+        {Object.keys(todo.meta).map((metaKey, index) =>
+          metaKey === "🕒" ? (
+            <TimeAgo key={index} thenTime={todo.meta["🕒"]} />
+          ) : (
+            <span
+              key={index}
+              className="meta-tag"
+            >{`${metaKey} ${todo.meta[metaKey]}`}</span>
+          )
+        )}
+      </div>
+    ) : null}
+  </>
+);
+
+export { Input, TimeAgo, TodoDisplay };
