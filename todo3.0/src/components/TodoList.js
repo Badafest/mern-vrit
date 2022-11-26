@@ -13,17 +13,17 @@ const TodoList = () => {
   const { handleAddTodo, handleEditTodo, handleDeleteTodo } = useDispatch();
 
   const onAddBtnClick = () => {
-    setFormHandler((prev) => handleAddTodo);
+    setFormHandler(() => handleAddTodo);
     setShowForm(true);
   };
 
   const onEditBtnClick = (todo) => {
-    setFormHandler((prev) => (title) => handleEditTodo(title, todo));
+    setFormHandler(() => (title) => handleEditTodo(title, todo));
     setShowForm(true);
   };
 
   const onDeleteBtnClick = (todo) => {
-    setFormHandler((prev) => (title) => handleDeleteTodo(title, todo));
+    setFormHandler(() => () => handleDeleteTodo(todo.id));
     setShowConfirm(true);
   };
 

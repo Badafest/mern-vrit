@@ -11,8 +11,8 @@ const useDispatch = () => {
   const handleEditTodo = (title, todo) =>
     dispatch({ type: TodoActions.EDIT, payload: { ...todo, title } });
 
-  const handleDeleteTodo = (title, todo) =>
-    dispatch({ type: TodoActions.DELETE, payload: todo.id });
+  const handleDeleteTodo = (id) =>
+    dispatch({ type: TodoActions.DELETE, payload: id });
 
   return { handleAddTodo, handleEditTodo, handleDeleteTodo };
 };
