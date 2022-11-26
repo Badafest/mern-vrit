@@ -1,38 +1,129 @@
 .App {
-  text-align: center;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  font-size: 1.2em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.btn-container {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.dark {
+  background-color: #00111a;
+  color: #f2e9e4;
+}
+
+.light {
+  background-color: #f2e9e4;
+  color: #00111a;
+}
+
+.dark button,
+.dark .todo-author {
+  background-color: #163d52;
+  color: #f2e9e4;
+}
+
+.light button,
+.light .todo-author {
+  background-color: #cd652d;
+  color: #f2e9e4;
+}
+
+.dark button:active {
+  background-color: #0d2430;
+}
+
+.light button:active {
+  background-color: #fc8c5d;
+}
+
+.light button:hover,
+.light input:hover,
+.light input:focus {
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 3px 1px;
+}
+
+.dark button:hover,
+.dark input:hover,
+.dark input:focus {
+  box-shadow: rgba(255, 255, 255, 0.5) 0 0 3px 1px;
+}
+
+.todo-list-main {
+  padding: 18px;
+  margin: 24px;
+  border-radius: 18px;
+  overflow: auto;
   display: flex;
   flex-direction: column;
+  gap: 18px;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 18px;
+}
+
+.todo-item {
+  padding: 24px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.todo-item-title {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 12px;
+  border-radius: 12px;
 }
 
-.App-link {
-  color: #61dafb;
+.todo-title {
+  font-size: 1.1em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.todo-author {
+  font-size: 1.05em;
+  border-radius: 6px;
+  padding: 3px 6px;
+}
+
+.dark .todo-item {
+  background-color: #072535;
+}
+
+.light .todo-item {
+  background-color: #e1c7b6;
+}
+
+.dark .todo-list-main,
+.dark .todo-item-title,
+.dark header {
+  background-color: #001824;
+}
+
+.light .todo-list-main,
+.light .todo-item-title,
+.light header {
+  background-color: #ebd8cd;
 }

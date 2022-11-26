@@ -7,15 +7,15 @@ import { TodoContextProvider } from "./context/TodoContext";
 import AppHeader from "./components/AppHeader";
 import TodoList from "./components/TodoList";
 
-const THEME_STYLE = (isDark) =>
-  isDark
-    ? { backgroundColor: "black", color: "white" }
-    : { backgroundColor: "white", color: "black" };
+// const THEME_STYLE = (isDark) =>
+//   isDark
+//     ? { backgroundColor: "#00111a", color: "#f2e9e4" }
+//     : { backgroundColor: "#f2e9e4", color: "#00111a" };
 
 function App() {
   const [isDark, _] = useContext(ThemeContext);
   return (
-    <div className="App" style={THEME_STYLE(isDark)}>
+    <div className={isDark ? "App dark" : "App light"}>
       <AppHeader />
       <TodoContextProvider>
         <TodoList />

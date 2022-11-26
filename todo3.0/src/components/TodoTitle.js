@@ -10,8 +10,8 @@ const TodoTitle = ({ todo }) => {
   };
 
   const STRIKE_STYLE = {
-    true: { cursor: "pointer", textDecoration: "line-through" },
-    false: { cursor: "pointer" },
+    true: { textDecoration: "line-through" },
+    false: {},
   };
 
   return (
