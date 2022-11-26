@@ -101,6 +101,7 @@ export const Modal = ({
         borderRadius: "12px",
         flexDirection: "column",
         justifyContent: "center",
+        width: "80%",
         maxWidth: "512px",
         marginLeft: "50%",
         transform: "translate(-50%,0)",

@@ -91,6 +91,8 @@
 
 .todo-item-title {
   display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   justify-content: space-between;
   cursor: pointer;
   align-items: center;
@@ -106,6 +108,7 @@
   font-size: 1.05em;
   border-radius: 6px;
   padding: 3px 6px;
+  text-align: center;
 }
 
 .dark .todo-item {
