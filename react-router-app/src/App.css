@@ -1,0 +1,169 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header,
+footer {
+  background-color: #1d3557;
+  color: #f1faee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  width: calc(100% - 2rem);
+}
+
+header {
+  position: fixed;
+  justify-content: space-between;
+}
+
+main {
+  background-color: #f1faee;
+  padding: 4rem 0.5rem 2rem;
+  flex-grow: 1;
+}
+
+.app_name {
+  background-color: #111f33;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  background-color: #111f33;
+  border-radius: 0.5rem;
+}
+
+.nav_link {
+  color: #f1faee;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+
+.nav_link:first-child {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.nav_link:last-child {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.nav_link:hover,
+.login_btn:hover {
+  background-color: #04111e;
+  box-shadow: rgba(255, 255, 255, 0.5) 0 0 2px 1px;
+}
+
+.nav_link:active,
+.login_btn:active {
+  background-color: #143b6d;
+}
+
+button,
+.todo-author {
+  background-color: #04111e;
+  color: #f1faee;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.card {
+  display: flex;
+  border: 1px solid rgb(195, 194, 194);
+  padding: 2rem;
+  border-radius: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  width: 312px;
+  margin-inline: auto;
+}
+
+.card-title img {
+  width: 256px;
+  height: 256px;
+  margin-left: calc(50% - 128px);
+}
+
+.btn-container {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.todo-list-main {
+  padding: 18px;
+  margin: 24px;
+  border-radius: 18px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 18px;
+}
+
+.todo-item {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 24px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.todo-item-title {
+  border: 1px solid rgb(175, 175, 175);
+  background-color: rgba(175, 175, 175, 0.25);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  cursor: pointer;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.todo-title {
+  font-size: 1.1em;
+}
+
+.todo-author {
+  font-size: 1.05em;
+  border-radius: 6px;
+  padding: 3px 6px;
+  text-align: center;
+}
+
+input {
+  padding: 6px 12px;
+  outline: none;
+  border: 1px solid #add8e6;
+  border-bottom: 3px solid #add8e6;
+  border-radius: 8px;
+  width: 95%;
+  margin: 1.5rem 0 1.5rem 0;
+}
+
+form {
+  position: fixed;
+  width: 80%;
+  margin-left: 5%;
+  background-color: #f1faee;
+  padding: 2rem;
+  border-radius: 2rem;
+}
