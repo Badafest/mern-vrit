@@ -1,5 +1,5 @@
-import ConfirmDelete from "./ConfirmDelete";
-import TodoForm from "./TodoForm";
+import DeleteConfirm from "./DeleteConfirm";
+import AddOrEditForm from "./AddOrEditForm";
 import Todos from "./Todos";
 import { useState } from "react";
 import useDispatch from "../hooks/useDispatch";
@@ -27,38 +27,26 @@ const TodoList = () => {
     setShowConfirm(true);
   };
 
-  const AddOrEditForm = () => {
-    const addEditConfirmFunction = (title) => {
-      formHandler(title);
-      setShowForm(false);
-    };
-
-    return showForm ? (
-      <TodoForm
-        onConfirm={addEditConfirmFunction}
-        closeModal={() => setShowForm(false)}
-      />
-    ) : null;
+  const closeAddEditForm = () => {
+    setShowForm(false);
   };
 
-  const DeleteConfirm = () => {
-    const deleteConfirmFunction = (title) => {
-      formHandler(title);
-      setShowConfirm(false);
-    };
-
-    return showConfirm ? (
-      <ConfirmDelete
-        onConfirm={deleteConfirmFunction}
-        closeModal={() => setShowConfirm(false)}
-      />
-    ) : null;
+  const closeDeleteConfirm = () => {
+    setShowConfirm(false);
   };
 
   return (
     <div className="todo-list-main">
-      {AddOrEditForm()}
-      {DeleteConfirm()}
+      <AddOrEditForm
+        showForm={showForm}
+        formHandler={formHandler}
+        closeAddEditForm={closeAddEditForm}
+      />
+      <DeleteConfirm
+        showConfirm={showConfirm}
+        formHandler={formHandler}
+        closeDeleteConfirm={closeDeleteConfirm}
+      />
       <IconButton text="Add Todo" onClick={onAddBtnClick} />
       <Todos handleDelete={onDeleteBtnClick} handleEdit={onEditBtnClick} />
     </div>
