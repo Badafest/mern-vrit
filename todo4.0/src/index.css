@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --primary: #1d3461;
+  --secondary: #1f487e;
+  --tertiary: #376996;
+  --muted: #829cbc;
+  --contrast: #ff7f11;
+  --light: #f0f6f6;
+  --lighter: #fcffff;
+  --dark: #23022e;
+  --success: darkgreen;
+  --danger: brown;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--primary);
+  color: var(--light);
+  user-select: none;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-link:hover {
+  color: var(--contrast);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.container > * {
+  width: fit-content;
+  background-color: var(--light);
+  padding: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.error-message {
+  padding: 0.5em 1em;
+  margin: 0.5em;
+  color: var(--danger);
+  border: 1px solid;
+  border-radius: 0.5em;
+}
+
+.container-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.5rem;
+}
+
+button {
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  background-color: var(--secondary);
+  color: var(--light);
+  border: none;
+  cursor: pointer;
+}
+
+.success-btn {
+  background-color: var(--success);
+}
+
+.danger-btn {
+  background-color: var(--danger);
+}
+
+input {
+  border: 1px solid var(--muted);
+  outline: none;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  background-color: var(--lighter);
+}
+
+.list-item {
+  display: flex;
+  padding: 0.5em 1em;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.list-title {
+  border: 1px solid var(--muted);
+  border-radius: 0.5em;
+  padding: 0.5em 1em;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.list-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+button:hover,
+input:hover {
+  box-shadow: var(--muted) 0 0 2px 1px;
+}
+
+input:focus {
+  border-bottom: 3px solid var(--tertiary);
+}
+
+button:active {
+  background-color: var(--tertiary);
+}
+
+.link {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid;
+}
+
+.link:hover {
+  color: var(--contrast);
+}
