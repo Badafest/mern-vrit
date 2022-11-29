@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import UserForm from "../../components/UserForm";
 import { UserContext } from "../../context/UserContext";
 
-function Login() {
+function Register() {
   const [user, setUser] = useState({ username: "", password: "" });
   const { registerUser } = useContext(UserContext);
 
@@ -36,4 +36,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
