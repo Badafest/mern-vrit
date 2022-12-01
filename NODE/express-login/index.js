@@ -1,13 +1,23 @@
 const express = require("express");
+const router = require("./routes");
 
-const userRouter = require("./routes/user");
+require("dotenv").config();
+
+const mongoose = require("mongoose");
+
+mongoose.connect(process.env.MONGODB_URL, (err) => {
+  if (err) {
+    return console.log("DB CONNECTION FAILED WITH ERROR =>", err);
+  }
+  return console.log("DB CONNECTED SUCCESSFULLY!");
+});
 
 const app = express();
 
 app.use(express.json({}));
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/user", userRouter);
+app.use(router);
 
 app.use("*", (_, res) =>
   res.status(404).json({
