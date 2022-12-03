@@ -1,4 +1,4 @@
-const { verifyToken } = require("./user.services");
+const { verifyToken } = require("./user.helpers");
 
 const isUserLoggedIn = async (req, res, next) => {
   try {
