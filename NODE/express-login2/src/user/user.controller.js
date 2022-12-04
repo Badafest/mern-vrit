@@ -9,7 +9,7 @@ const UserController = {
     const { username, email, password, bio } = req.body;
     try {
       const { user } = await attemptRegister(username, email, password, bio);
-      res.status(200).json({
+      return res.status(200).json({
         message: "Successfully registered user",
         user,
       });
@@ -30,7 +30,7 @@ const UserController = {
     try {
       const { username, password } = req.body;
       const { token, user } = await attemptLogin(username, password);
-      res.status(200).json({
+      return res.status(200).json({
         message: "Successfully logged in user",
         token,
         user,
@@ -46,7 +46,7 @@ const UserController = {
   getUserData: async (req, res) => {
     try {
       const user = await attemptUserData(req.body.username);
-      res.status(200).json({
+      return res.status(200).json({
         message: "Successfully fetched user data!",
         user,
       });
