@@ -1,7 +1,7 @@
 const {
   attemptRegister,
   attemptLogin,
-  attemptUserData,
+  fetchUserData,
 } = require("./user.services");
 
 const UserController = {
@@ -45,7 +45,7 @@ const UserController = {
 
   getUserData: async (req, res) => {
     try {
-      const user = await attemptUserData(req.body.username);
+      const user = await fetchUserData(req.user);
       return res.status(200).json({
         message: "Successfully fetched user data!",
         user,

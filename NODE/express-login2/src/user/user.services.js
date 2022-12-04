@@ -41,18 +41,18 @@ const attemptLogin = async (username, password) => {
     throw new Error("Username or Password is incorrect");
   }
 
-  const token = await generateToken({ username });
+  const token = await generateToken({ user: user._id });
   const loggedInUser = { ...user._doc, password: null, email: null };
 
   return { user: loggedInUser, token };
 };
 
-const attemptUserData = async (username) => {
-  const user = await User.findOne({ username });
+const fetchUserData = async (_id) => {
+  const user = await User.findById(_id, "-password");
   if (!user) {
     throw new Error("No user found");
   }
-  return { ...user._doc, password: null };
+  return { user };
 };
 
-module.exports = { attemptRegister, attemptLogin, attemptUserData };
+module.exports = { attemptRegister, attemptLogin, fetchUserData };

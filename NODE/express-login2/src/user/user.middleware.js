@@ -8,14 +8,19 @@ const isUserLoggedIn = async (req, res, next) => {
         error: "User is not logged in",
       });
     }
-    const token = auth.split(" ")[1];
+    const [bearer, token] = auth.split(" ");
+    if (bearer !== "Bearer") {
+      return res.status(400).json({
+        error: "Not a valid log in",
+      });
+    }
     const isTokenValid = await verifyToken(token);
     if (!isTokenValid) {
       return res.status(400).json({
         error: "Not a valid log in",
       });
     }
-    req.user = isTokenValid.username;
+    req.user = isTokenValid.user;
     next();
   } catch (err) {
     console.log(err);
