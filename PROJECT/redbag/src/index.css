@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "montserrat";
+  src: url("../font/montserrat-regular.ttf");
+}
+
+@font-face {
+  font-style: italic;
+  font-family: "montserrat";
+  src: url("../font/montserrat-italic.ttf");
+}
+
+* {
+  font-family: "montserrat";
+}
+
+.btn {
+  @apply py-2 px-4 rounded-lg cursor-pointer text-center;
+}
+
+.btn-primary {
+  @apply bg-primary hover:bg-primary_light active:bg-primary text-light;
+}
+
+.btn-contrast {
+  @apply bg-contrast hover:bg-contrast_light active:bg-contrast text-light;
+}
+
+.link {
+  @apply p-2;
+}
+
+input {
+  @apply w-full px-3 py-2 rounded-md outline-none bg-light border-b-contrast_light border-b-2 text-primary_dark;
+}
+
+input:focus {
+  @apply shadow-md shadow-contrast_light;
+}
+
+.link:hover,
+.icon:hover,
+.link:active {
+  @apply cursor-pointer text-contrast_dark;
+}
+
+.icon {
+  @apply p-2 rounded-full;
+}
+
+.icon:hover {
+  @apply bg-gray-700 text-tertiary_light;
+}
+
+.icon:active {
+  @apply bg-gray-800;
+}
+
+.link:focus {
+  @apply border-gray-700 border-b-2;
+}
