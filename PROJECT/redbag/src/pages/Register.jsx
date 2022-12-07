@@ -1,30 +1,47 @@
-import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import UserForm from "../components/forms/UserForm";
-import userService from "../features/user/userService";
+import Toast from "../components/Toast";
+import AuthController from "../controllers/AuthController";
 import LoginImg from "../imgs/login.svg";
 
 export default function () {
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const UserService = new userService(user, dispatch);
-
   const usernameRef = useRef();
   const passwordRef = useRef();
+  const emailRef = useRef();
 
-  const handleRegister = (evt) => {
+  const [toast, setToast] = useState({ message: "", type: "" });
+  const handleToastClose = () => {
+    setToast({ message: "", type: "" });
+  };
+
+  const navigate = useNavigate();
+
+  const handleRegister = async (evt) => {
     evt.preventDefault();
-    UserService.register(usernameRef.current.value, passwordRef.current.value);
+    const data = await AuthController.register(
+      usernameRef.current.value,
+      passwordRef.current.value,
+      emailRef.current.value
+    );
+    if (data.user) {
+      navigate("/login");
+    } else {
+      setToast({ message: data.error, type: "error" });
+    }
   };
   return (
     <>
       <div className="w-full mx-auto max-w-sm flex-grow">
+        {toast.message.length ? (
+          <Toast {...toast} onClose={handleToastClose} />
+        ) : (
+          <></>
+        )}
         <UserForm
           type="register"
           handleSubmit={handleRegister}
-          usernameRef={usernameRef}
-          passwordRef={passwordRef}
+          ref={{ usernameRef, passwordRef, emailRef }}
         />
         <Link
           to="/login"

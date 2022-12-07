@@ -1,9 +1,9 @@
-export default function UserForm({
-  type,
-  handleSubmit,
-  usernameRef,
-  passwordRef,
-}) {
+import { forwardRef } from "react";
+
+export default forwardRef(function UserForm(
+  { type, handleSubmit },
+  { usernameRef, passwordRef, emailRef }
+) {
   return (
     <form
       className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col"
@@ -18,6 +18,21 @@ export default function UserForm({
           ref={usernameRef}
         />
       </div>
+
+      {type === "register" ? (
+        <div className="mb-4">
+          <label htmlFor="email">Email Address</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email Address"
+            ref={emailRef}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+
       <div className="mb-6">
         <label htmlFor="password">Password</label>
         <input
@@ -32,4 +47,4 @@ export default function UserForm({
       </button>
     </form>
   );
-}
+});
