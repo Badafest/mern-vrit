@@ -8,10 +8,43 @@ const UserController = {
         message: "Successfully fetched user data",
         user,
       });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       return res.status(500).json({
-        error: err.message,
+        error: error.message,
+      });
+    }
+  },
+
+  setAvatar: async (req, res) => {
+    try {
+      const { image } = req.body;
+      if (!image) {
+        throw new Error("No image passed");
+      }
+      const url = await userService.setAvatar(req._id, image);
+      return res.status(200).json({
+        message: "Successfully set user avatar",
+        image: url,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
+
+  delAvatar: async (req, res) => {
+    try {
+      await userService.delAvatar(req._id);
+      return res.status(200).json({
+        message: "Successfully deleted user avatar",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
       });
     }
   },

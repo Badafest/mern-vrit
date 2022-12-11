@@ -57,6 +57,28 @@ const AuthController = {
       });
     }
   },
+
+  googleAuth: async (req, res) => {
+    const { id_token } = req.body;
+    try {
+      const { user, access_token, refresh_token } =
+        await AuthService.googleAuth(id_token);
+      return res.status(200).json({
+        message: "Successfully authenticated google client",
+        user,
+        access_token,
+        refresh_token,
+      });
+    } catch (err) {
+      console.log(err);
+      if (err.code === 11000) {
+        err.message = `${Object.keys(err.keyPattern)[0]} is already taken`;
+      }
+      return res.status(401).json({
+        error: err.message,
+      });
+    }
+  },
 };
 
 module.exports = AuthController;

@@ -4,13 +4,13 @@
 
 @font-face {
   font-family: "montserrat";
-  src: url("../font/montserrat-regular.ttf");
+  src: url("/font/montserrat-regular.ttf");
 }
 
 @font-face {
   font-style: italic;
   font-family: "montserrat";
-  src: url("../font/montserrat-italic.ttf");
+  src: url("/font/montserrat-italic.ttf");
 }
 
 * {
@@ -44,11 +44,11 @@ input:focus {
 .link:hover,
 .icon:hover,
 .link:active {
-  @apply cursor-pointer text-contrast_dark;
+  @apply cursor-pointer text-contrast;
 }
 
 .icon {
-  @apply p-2 rounded-full;
+  @apply text-2xl p-2 rounded-full;
 }
 
 .icon:hover {

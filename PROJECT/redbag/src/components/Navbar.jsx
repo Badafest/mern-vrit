@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import NavBrand from "./Navbar/NavBrand";
 import NavList from "./Navbar/Navlist";
 import Search from "./Search";

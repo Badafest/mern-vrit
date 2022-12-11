@@ -19,7 +19,7 @@ export default forwardRef(function UserForm(
         />
       </div>
 
-      {type === "register" ? (
+      {type !== "login" ? (
         <div className="mb-4">
           <label htmlFor="email">Email Address</label>
           <input
@@ -33,17 +33,26 @@ export default forwardRef(function UserForm(
         <></>
       )}
 
-      <div className="mb-6">
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Password"
-          ref={passwordRef}
-        />
-      </div>
+      {type !== "reset_password" ? (
+        <div className="mb-6">
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Password"
+            ref={passwordRef}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+
       <button className="btn btn-primary" type="submit">
-        {type === "login" ? "Log In" : "Sign Up"}
+        {type === "login"
+          ? "Log In"
+          : type === "register"
+          ? "Sign Up"
+          : "Submit"}
       </button>
     </form>
   );

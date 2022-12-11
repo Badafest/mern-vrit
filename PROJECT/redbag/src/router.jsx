@@ -10,6 +10,11 @@ import Products from "./pages/Products";
 import Vendors from "./pages/Vendors";
 import Register from "./pages/Register";
 
+import PrivateProvider from "./components/PrivateProvider";
+import Dashboard from "./pages/private/Dashboard";
+import Account from "./pages/private/Account";
+import ResetPassword from "./pages/ResetPassword";
+
 export default createBrowserRouter([
   {
     path: "/",
@@ -29,6 +34,10 @@ export default createBrowserRouter([
         element: <Register />,
       },
       {
+        path: "/reset_password",
+        element: <ResetPassword />,
+      },
+      {
         path: "/help",
         element: <Help />,
       },
@@ -43,6 +52,24 @@ export default createBrowserRouter([
       {
         path: "/vendors",
         element: <Vendors />,
+      },
+      {
+        path: "/app",
+        element: <PrivateProvider />,
+        children: [
+          {
+            path: "/app",
+            element: <Dashboard />,
+          },
+          {
+            path: "/app/dashboard",
+            element: <Dashboard />,
+          },
+          {
+            path: "/app/account/:id",
+            element: <Account />,
+          },
+        ],
       },
     ],
   },

@@ -4,7 +4,6 @@ const UserSchema = mongoose.Schema(
   {
     username: {
       type: String,
-      required: "Username is required",
       unique: true,
     },
     email: {
@@ -12,10 +11,12 @@ const UserSchema = mongoose.Schema(
       required: "Email is required",
       unique: true,
     },
-    password: {
-      type: String,
-      required: "Password is required",
+    password: String,
+    googleAuth: {
+      type: Boolean,
+      default: false,
     },
+    avatar: String,
     role: {
       type: String,
       enum: ["ADMIN", "BUYER"],
@@ -25,7 +26,8 @@ const UserSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    last_token: String,
+    refresh_token: String,
+    access_token: String,
   },
   { timestamps: true }
 );

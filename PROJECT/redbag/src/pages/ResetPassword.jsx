@@ -7,7 +7,6 @@ import LoginImg from "../imgs/login.svg";
 
 export default function () {
   const usernameRef = useRef();
-  const passwordRef = useRef();
   const emailRef = useRef();
 
   const [toast, setToast] = useState({ message: "", type: "" });
@@ -17,15 +16,13 @@ export default function () {
 
   const navigate = useNavigate();
 
-  const handleRegister = async (evt) => {
+  const handleResetPassword = async (evt) => {
     evt.preventDefault();
     try {
-      await AuthController.register(
+      await AuthController.resetPassword(
         usernameRef.current.value,
-        passwordRef.current.value,
         emailRef.current.value
       );
-      navigate("/login");
     } catch (error) {
       setToast({ message: error.message, type: "error" });
     }
@@ -39,15 +36,15 @@ export default function () {
           <></>
         )}
         <UserForm
-          type="register"
-          handleSubmit={handleRegister}
-          ref={{ usernameRef, passwordRef, emailRef }}
+          type="reset_password"
+          handleSubmit={handleResetPassword}
+          ref={{ usernameRef, emailRef }}
         />
         <Link
           to="/login"
           className="block link text-center text-gray-800 text-s"
         >
-          Already have an account? Log in here
+          Login instead? Click here
         </Link>
       </div>
       <img src={LoginImg} className="w-0 h-fit md:w-1/3" />

@@ -1,5 +1,5 @@
 const UserService = require("../user/user.service");
-const AuthHelper = require("./auth.helper");
+const AuthService = require("./auth.service");
 
 const AuthMiddleware = {
   verifyAccessToken: async (req, res, next) => {
@@ -11,22 +11,17 @@ const AuthMiddleware = {
         });
       }
       const [bearer, token] = authorization.split(" ");
-      if (!bearer.length || !token.length) {
+      if (!bearer || !bearer.length || !token || !token.length) {
         return res.status(401).json({
-          error: "Not a valid token",
+          error: "Not a valid access token",
         });
       }
-      const data = await AuthHelper.verifyToken(token);
-      if (!data || !data._id) {
-        return res.status(401).json({
-          error: "Not a valid token",
-        });
-      }
+      const data = await AuthService.verifyAccessToken(token);
       req._id = data._id;
       next();
     } catch (err) {
       console.log(err);
-      return res.status(500).json({
+      return res.status(401).json({
         error: err.message,
       });
     }
@@ -54,7 +49,7 @@ const AuthMiddleware = {
       const { role } = await UserService.getUserData(req._id);
       if (role !== "ADMIN") {
         return res.status(401).json({
-          error: "User is not an ADMIN",
+          error: "User is not an admin",
         });
       }
       next();

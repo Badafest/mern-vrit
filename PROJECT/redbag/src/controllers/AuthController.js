@@ -10,7 +10,8 @@ const AuthController = {
       });
       return data;
     } catch (error) {
-      return error.response.data;
+      console.log(error);
+      throw new Error(error.response.data.error || error.message);
     }
   },
 
@@ -19,7 +20,30 @@ const AuthController = {
       const { data } = await axios.post("/auth/login", { username, password });
       return data;
     } catch (error) {
-      return error.response.data;
+      throw new Error(error.response.data.error || error.message);
+    }
+  },
+
+  resetPassword: async (username, email) => {
+    try {
+      const { data } = await axios.post("/auth/reset_password", {
+        username,
+        email,
+      });
+      return data;
+    } catch (error) {
+      throw new Error(error.response.data.error || error.message);
+    }
+  },
+
+  authGoogle: async (id_token) => {
+    try {
+      const { data } = await axios.post("/auth/google_auth", {
+        id_token,
+      });
+      return data;
+    } catch (error) {
+      throw new Error(error.response.data.error || error.message);
     }
   },
 };

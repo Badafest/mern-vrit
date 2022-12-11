@@ -1,3 +1,4 @@
+const cloudinary = require("./config/cloudinary");
 const { MongoConnection } = require("./config/database");
 const app = require("./config/express");
 
