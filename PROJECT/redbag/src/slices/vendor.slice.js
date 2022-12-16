@@ -2,19 +2,19 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../config/axios";
 
 export const fetchAll = createAsyncThunk(
-  "category/fetchAll",
+  "vendor/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/category/fetch_json");
-      return response.data.categories;
+      const response = await axios.get("/vendor/fetch_all");
+      return response.data.vendors;
     } catch (error) {
       rejectWithValue(error);
     }
   }
 );
 
-const CategorySlice = createSlice({
-  name: "category",
+const VendorSlice = createSlice({
+  name: "vendor",
   initialState: {
     value: [],
   },
@@ -26,4 +26,4 @@ const CategorySlice = createSlice({
   },
 });
 
-export default CategorySlice.reducer;
+export default VendorSlice.reducer;

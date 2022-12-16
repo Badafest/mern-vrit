@@ -20,6 +20,7 @@ import Product from "./pages/Product";
 import AdminProvider from "./components/Providers/AdminProvider";
 import Dashboard from "./pages/admin/Dashboard";
 import Category from "./pages/admin/Category";
+import Vendor from "./pages/admin/Vendor";
 
 export default createBrowserRouter([
   {
@@ -99,7 +100,7 @@ export default createBrowserRouter([
               },
               {
                 path: "/admin/vendor",
-                element: <div>Vendor</div>,
+                element: <Vendor />,
               },
               {
                 path: "/admin/product",

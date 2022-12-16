@@ -100,8 +100,8 @@ const CategoryHead = ({
     <div className="flex gap-2">
       {item === selected ? (
         <EditDeleteButtons
-          handleEditCategory={handleEditCategory}
-          handleDeleteCategory={handleDeleteCategory}
+          handleEdit={handleEditCategory}
+          handleDelete={handleDeleteCategory}
         />
       ) : (
         <></>

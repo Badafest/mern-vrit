@@ -1,7 +1,4 @@
 const mongoose = require("mongoose");
-const User = require("../user/User");
-
-const Category = require("../category/Category");
 
 const ProductSchema = mongoose.Schema(
   {
@@ -18,16 +15,13 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: "Price is required",
     },
-    main_category: {
-      type: mongoose.Types.ObjectId,
-      ref: "Category",
-      required: "Main category is required",
-    },
-    sub_category: {
-      type: mongoose.Types.ObjectId,
-      ref: "Category",
-      required: "Sub category is required",
-    },
+    avatar: String,
+    categories: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Category",
+      },
+    ],
     sold: {
       type: Number,
       default: 0,
@@ -47,25 +41,12 @@ const ProductSchema = mongoose.Schema(
         },
         author: {
           type: mongoose.Types.ObjectId,
-          ref: User,
+          ref: "User",
         },
       },
     ],
   },
   { timestamps: true }
 );
-
-ProductSchema.pre("save", async function (next) {
-  const sub_categories = this.main_category.children;
-  if (sub_categories.includes(this.sub_category) === -1) {
-    throw new Error(
-      "Invalid sub category => ",
-      this.sub_category.name,
-      " in main category => ",
-      this.main_category.name
-    );
-  }
-  next();
-});
 
 module.exports = mongoose.model("Product", ProductSchema);

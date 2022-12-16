@@ -1,11 +1,13 @@
 import axios from "../config/axios";
 
-const CategoryController = {
-  add: async (parent_name, child_name) => {
+const VendorController = {
+  add: async (name, location, email, phone) => {
     try {
-      const { data } = await axios.post("/category/add", {
-        parent_name,
-        child_name,
+      const { data } = await axios.post("/vendor/add", {
+        name,
+        location,
+        email,
+        phone,
       });
       return data;
     } catch (error) {
@@ -14,11 +16,14 @@ const CategoryController = {
     }
   },
 
-  edit: async (name, new_name) => {
+  edit: async (name, new_name, new_location, new_email, new_phone) => {
     try {
-      const { data } = await axios.patch("/category/edit", {
+      const { data } = await axios.patch("/vendor/edit", {
         name,
         new_name,
+        new_location,
+        new_email,
+        new_phone,
       });
       return data;
     } catch (error) {
@@ -30,7 +35,7 @@ const CategoryController = {
   delete: async (name) => {
     console.log(name);
     try {
-      const { data } = await axios.delete("/category/delete", {
+      const { data } = await axios.delete("/vendor/delete", {
         data: { name },
       });
       return data;
@@ -41,4 +46,4 @@ const CategoryController = {
   },
 };
 
-export default CategoryController;
+export default VendorController;

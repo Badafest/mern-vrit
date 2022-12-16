@@ -1,17 +1,14 @@
-export default function EditDeleteButtons({
-  handleEditCategory,
-  handleDeleteCategory,
-}) {
+export default function EditDeleteButtons({ handleEdit, handleDelete }) {
   return (
     <>
       <button
-        onClick={handleEditCategory}
+        onClick={handleEdit}
         className="icon_text p-1 rounded-full border border-primary text-primary"
       >
         edit
       </button>
       <button
-        onClick={handleDeleteCategory}
+        onClick={handleDelete}
         className="icon_text p-1 rounded-full border border-contrast_dark text-contrast_dark"
       >
         delete

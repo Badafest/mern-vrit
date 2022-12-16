@@ -5,23 +5,17 @@ class ProductService {
   constructor(Product) {
     this.Product = Product;
   }
-  async add(
-    title,
-    vendor,
-    main_category,
-    sub_category,
-    price,
-    stock,
-    description
-  ) {
+  async add(title, vendor, price, stock, description, avatar, categories) {
+    if (avatar && avatar.length) {
+    }
     const product = await new this.Product({
       title,
-      main_category,
-      sub_category,
       vendor,
       price,
       stock,
       description,
+      avatar,
+      categories,
     }).save();
     return product;
   }

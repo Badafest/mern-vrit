@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import BottomNav from "./components/BottomNav";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import SecondNav from "./components/SeondNav";
+import SecondNav from "./components/SecondNav";
 
 export default function App() {
   return (
