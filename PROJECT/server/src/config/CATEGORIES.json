@@ -1,0 +1,31 @@
+{
+  "Health and Beauty": [
+    "Body Care",
+    "Skin Care",
+    "Hair",
+    "Makeup",
+    "Personal Care",
+    "Supplements and Supplies"
+  ],
+  "Computer and Consumer Electronics": [
+    "TV and Accessories",
+    "Computer and Accessories",
+    "Home Appliances",
+    "Smartphones and Tablets"
+  ],
+  "Apparel and Accessories": [
+    "Men's Fashion",
+    "Women's Fashion",
+    "Bags and Shoes",
+    "Wallets and Belts",
+    "Fashion Accessories"
+  ],
+  "Furnishing and Decoration": [
+    "Furniture",
+    "Decor",
+    "Bath, Bedding and Dining",
+    "Tools"
+  ],
+  "Food and Beverage": ["Food Items", "Grocery", "Beverages"],
+  "Office Equipment and Supplies": ["Office Supplies", "Office Equipment"]
+}

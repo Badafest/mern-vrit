@@ -24,11 +24,23 @@ const AuthController = {
     }
   },
 
-  resetPassword: async (username, email) => {
+  forgotPassword: async (username, email) => {
     try {
-      const { data } = await axios.post("/auth/reset_password", {
+      const { data } = await axios.post("/auth/forgot_password", {
         username,
         email,
+      });
+      return data;
+    } catch (error) {
+      throw new Error(error.response.data.error || error.message);
+    }
+  },
+
+  resetPassword: async (secret, password) => {
+    try {
+      const { data } = await axios.post("/auth/reset_password", {
+        secret,
+        password,
       });
       return data;
     } catch (error) {

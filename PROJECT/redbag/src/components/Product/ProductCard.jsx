@@ -1,8 +1,13 @@
+import { Link } from "react-router-dom";
+import { PRODUCTS } from "../../config/PRODUCTS";
 import ClippedImg from "../Image/ClippedImage";
 
 export default function ProductCard({ product }) {
   return (
-    <div className="w-60 rounded-xl bg-white shadow-lg flex-shrink-0 cursor-pointer">
+    <Link
+      to={"/product/" + PRODUCTS.indexOf(product)}
+      className="w-60 rounded-xl bg-white shadow-lg flex-shrink-0 cursor-pointer"
+    >
       <ClippedImg
         width="100%"
         height="11rem"
@@ -25,6 +30,6 @@ export default function ProductCard({ product }) {
         </div>
         <div className="text-xs">{product.description}</div>
       </div>
-    </div>
+    </Link>
   );
 }

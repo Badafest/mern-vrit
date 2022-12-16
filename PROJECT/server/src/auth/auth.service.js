@@ -1,8 +1,8 @@
 const User = require("../user/User");
 const AuthHelper = require("./auth.helper");
-const validate = require("./auth.validation");
+const validate = require("../validate");
 
-const { JWT_REFRESH, JWT_EXPIRY } = require("../config/vars");
+const { JWT_REFRESH, JWT_EXPIRY, SECRET_EXPIRY } = require("../config/vars");
 
 const GAuthClient = require("../config/googleAuth");
 
@@ -137,6 +137,46 @@ class AuthService {
       access_token: user.access_token,
       refresh_token: user.refresh_token,
     };
+  }
+
+  async forgotPassword(username, email) {
+    const isValid = await validate(username, email);
+    if (!isValid) {
+      throw new Error("Username and email are required");
+    }
+    const token = await AuthHelper.generateToken(
+      { username, email },
+      { expiresIn: SECRET_EXPIRY }
+    );
+    const user = await this.User.findOne({ username, email });
+    if (user) {
+      await AuthHelper.sendMail(email, token, "reset_password");
+      user.reset_token = token;
+      await user.save();
+    }
+    return {
+      ok: true,
+      expiry: SECRET_EXPIRY,
+    };
+  }
+
+  async resetPassword(secret, password) {
+    const isValid = await validate(secret, password);
+    if (!isValid) {
+      throw new Error("New password is required");
+    }
+    const { username, email } = await AuthHelper.verifyToken(secret);
+    const user = await this.User.findOne({ username, email });
+    if (user.reset_token !== secret) {
+      throw new Error("Invalid secret");
+    }
+    if (!user) {
+      throw new Error("No user found");
+    }
+    user.password = await AuthHelper.hashPassword(password);
+    user.reset_token = "";
+    await user.save();
+    return { username };
   }
 }
 

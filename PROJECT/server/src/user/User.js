@@ -22,12 +22,21 @@ const UserSchema = mongoose.Schema(
       enum: ["ADMIN", "BUYER"],
       default: "BUYER",
     },
-    verified: {
-      type: Boolean,
-      default: false,
-    },
+    cart: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
+    favorites: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
     refresh_token: String,
     access_token: String,
+    reset_token: String,
   },
   { timestamps: true }
 );

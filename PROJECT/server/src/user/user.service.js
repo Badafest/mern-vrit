@@ -24,8 +24,9 @@ class UserService {
     const url = await cloudinary.upload(image, "users");
     const old_url = user.avatar;
     if (old_url && old_url.length) {
-      const { status } = await cloudinary.destroy(old_url);
-      if (status !== "ok") {
+      const response = await cloudinary.destroy(old_url);
+      console.log(response);
+      if (response.result !== "ok") {
         throw new Error("Problem while replacing image");
       }
     }

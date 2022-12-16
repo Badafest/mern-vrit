@@ -79,6 +79,39 @@ const AuthController = {
       });
     }
   },
+
+  forgotPassword: async (req, res) => {
+    const { username, email } = req.body;
+    try {
+      const { expiry } = await AuthService.forgotPassword(username, email);
+      return res.status(200).json({
+        message:
+          "Please check your email for link to reset password within " +
+          parseInt(expiry) +
+          " minutes",
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(401).json({
+        error: err.message,
+      });
+    }
+  },
+
+  resetPassword: async (req, res) => {
+    const { secret, password } = req.body;
+    try {
+      await AuthService.resetPassword(secret, password);
+      return res.status(200).json({
+        message: "Successfully reset password",
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(401).json({
+        error: err.message,
+      });
+    }
+  },
 };
 
 module.exports = AuthController;

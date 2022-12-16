@@ -10,10 +10,16 @@ import Products from "./pages/Products";
 import Vendors from "./pages/Vendors";
 import Register from "./pages/Register";
 
-import PrivateProvider from "./components/PrivateProvider";
-import Dashboard from "./pages/private/Dashboard";
+import PrivateProvider from "./components/Providers/PrivateProvider";
 import Account from "./pages/private/Account";
+import Checkout from "./pages/private/Checkout";
+import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Product from "./pages/Product";
+
+import AdminProvider from "./components/Providers/AdminProvider";
+import Dashboard from "./pages/admin/Dashboard";
+import Category from "./pages/admin/Category";
 
 export default createBrowserRouter([
   {
@@ -35,6 +41,10 @@ export default createBrowserRouter([
       },
       {
         path: "/reset_password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/reset_password/new",
         element: <ResetPassword />,
       },
       {
@@ -54,20 +64,48 @@ export default createBrowserRouter([
         element: <Vendors />,
       },
       {
+        path: "/product/:id",
+        element: <Product />,
+      },
+      {
         path: "/app",
         element: <PrivateProvider />,
         children: [
           {
             path: "/app",
-            element: <Dashboard />,
+            element: <Checkout />,
           },
           {
-            path: "/app/dashboard",
-            element: <Dashboard />,
+            path: "/app/checkout",
+            element: <Checkout />,
           },
           {
             path: "/app/account/:id",
             element: <Account />,
+          },
+        ],
+      },
+      {
+        path: "/admin",
+        element: <AdminProvider />,
+        children: [
+          {
+            path: "/admin",
+            element: <Dashboard />,
+            children: [
+              {
+                path: "/admin/category",
+                element: <Category />,
+              },
+              {
+                path: "/admin/vendor",
+                element: <div>Vendor</div>,
+              },
+              {
+                path: "/admin/product",
+                element: <div>Product</div>,
+              },
+            ],
           },
         ],
       },

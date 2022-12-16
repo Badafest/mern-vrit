@@ -34,6 +34,16 @@ const UserController = {
       throw new Error(error.response.data.error || error.message);
     }
   },
+
+  getUserData: async () => {
+    try {
+      const { data } = await axios.get("/user/me");
+      return { email: data.user.email, role: data.user.role };
+    } catch (error) {
+      console.log(error);
+      throw new Error(error.response.data.error || error.message);
+    }
+  },
 };
 
 export default UserController;

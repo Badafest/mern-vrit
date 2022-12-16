@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const { SALT_ROUNDS, JWT_SECRET, JWT_EXPIRY } = require("../config/vars");
+const { SALT_ROUNDS, JWT_SECRET } = require("../config/vars");
 
 const jwt = require("jsonwebtoken");
 
@@ -23,6 +23,11 @@ const AuthHelper = {
         }
         resolve(data);
       });
+    }),
+  sendMail: async (to, payload, template) =>
+    new Promise((resolve, reject) => {
+      console.log(`MAILED ${payload} TO ${to} WITH TEMPLATE ${template}`);
+      resolve(true);
     }),
 };
 

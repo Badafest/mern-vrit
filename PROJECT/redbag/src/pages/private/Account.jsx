@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserAvatar from "../../components/Image/UserAvatar";
 import Toast from "../../components/Toast";
@@ -11,13 +11,34 @@ export default function () {
   const navigate = useNavigate();
 
   const [toast, setToast] = useState({ message: "", type: "" });
+  const [userData, setUserData] = useState({});
 
   const avatarRef = useRef();
+
+  useEffect(() => {
+    UserController.getUserData()
+      .then((data) => setUserData(data))
+      .catch((err) =>
+        setToast({
+          message: err.message,
+          type: "error",
+        })
+      );
+  }, []);
 
   const handleLogout = () => {
     changeUser({ username: "", _id: "" });
     localStorage.removeItem("user");
     navigate("/");
+  };
+
+  const handleDelete = () => {
+    setToast({
+      message:
+        "You will be notified at " +
+        userData.email +
+        " when your account is deleted. If you want to keep this account, write to us at accounts@redbag.com within 2 business days.",
+    });
   };
 
   const handleDeleteAvatar = async () => {
@@ -85,10 +106,20 @@ export default function () {
             delete
           </button>
         </div>
+        <div className="text-contrast m-2 text-center">
+          <div>{user.username}</div>
+          <div>{userData.email}</div>
+        </div>
       </div>
-      <button className="btn btn-primary" onClick={handleLogout}>
-        Log Out
-      </button>
+
+      <div className="flex gap-2">
+        <button className="btn btn-primary flex-grow" onClick={handleLogout}>
+          Log Out
+        </button>
+        <button className="btn btn-contrast" onClick={handleDelete}>
+          Delete Account
+        </button>
+      </div>
     </div>
   );
 }

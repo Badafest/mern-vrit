@@ -16,6 +16,7 @@ export default forwardRef(function UserForm(
           type="text"
           placeholder="Username"
           ref={usernameRef}
+          required
         />
       </div>
 
@@ -27,6 +28,7 @@ export default forwardRef(function UserForm(
             type="email"
             placeholder="Email Address"
             ref={emailRef}
+            required
           />
         </div>
       ) : (
@@ -41,6 +43,7 @@ export default forwardRef(function UserForm(
             type="password"
             placeholder="Password"
             ref={passwordRef}
+            required
           />
         </div>
       ) : (
