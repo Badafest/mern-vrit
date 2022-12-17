@@ -30,9 +30,10 @@ class Cloudinary {
   async destroy(url) {
     try {
       const splitted = url.split("/");
+      const folder = splitted[splitted.length - 2];
       const public_id = splitted[splitted.length - 1].split(".")[0];
       return await this.cloudinary.uploader.destroy(
-        "redbag/users/" + public_id
+        "redbag/" + folder + "/" + public_id
       );
     } catch (error) {
       throw error;

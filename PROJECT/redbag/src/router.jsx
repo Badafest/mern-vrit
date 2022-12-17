@@ -21,6 +21,7 @@ import AdminProvider from "./components/Providers/AdminProvider";
 import Dashboard from "./pages/admin/Dashboard";
 import Category from "./pages/admin/Category";
 import Vendor from "./pages/admin/Vendor";
+import ProductAdmin from "./pages/admin/Product";
 
 export default createBrowserRouter([
   {
@@ -86,27 +87,27 @@ export default createBrowserRouter([
           },
         ],
       },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminProvider />,
+    children: [
       {
         path: "/admin",
-        element: <AdminProvider />,
+        element: <Dashboard />,
         children: [
           {
-            path: "/admin",
-            element: <Dashboard />,
-            children: [
-              {
-                path: "/admin/category",
-                element: <Category />,
-              },
-              {
-                path: "/admin/vendor",
-                element: <Vendor />,
-              },
-              {
-                path: "/admin/product",
-                element: <div>Product</div>,
-              },
-            ],
+            path: "/admin/category",
+            element: <Category />,
+          },
+          {
+            path: "/admin/vendor",
+            element: <Vendor />,
+          },
+          {
+            path: "/admin/product",
+            element: <ProductAdmin />,
           },
         ],
       },

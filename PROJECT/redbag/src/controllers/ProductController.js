@@ -1,16 +1,18 @@
 import axios from "../config/axios";
 import { readFile } from "../helpers";
 
-const VendorController = {
-  add: async (name, location, email, phone, avatar) => {
+const ProductController = {
+  add: async (name, vendor, price, stock, category, avatar, description) => {
     try {
       const image = avatar ? await readFile(avatar) : "";
-      const { data } = await axios.post("/vendor/add", {
+      const { data } = await axios.post("/product/add", {
         name,
-        location,
-        email,
-        phone,
+        vendor,
+        price,
+        stock,
+        category,
         avatar: image,
+        description,
       });
       return data;
     } catch (error) {
@@ -28,8 +30,8 @@ const VendorController = {
     new_avatar
   ) => {
     try {
-      const image = new_avatar ? await readFile(new_avatar) : "";
-      const { data } = await axios.patch("/vendor/edit", {
+      const image = avatar ? await readFile(new_avatar) : "";
+      const { data } = await axios.patch("/product/edit", {
         name,
         new_name,
         new_location,
@@ -47,7 +49,7 @@ const VendorController = {
   delete: async (name) => {
     console.log(name);
     try {
-      const { data } = await axios.delete("/vendor/delete", {
+      const { data } = await axios.delete("/product/delete", {
         data: { name },
       });
       return data;
@@ -58,4 +60,4 @@ const VendorController = {
   },
 };
 
-export default VendorController;
+export default ProductController;

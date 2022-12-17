@@ -52,28 +52,30 @@ export default function Category() {
     setSelected((prev) => (prev === category ? "" : category));
   };
 
+  const handleToastClose = () => setToast({ message: "", type: "" });
+
   return (
     <>
       <div className="px-4">
         {toast.message.length ? (
-          <Toast
-            {...toast}
-            onClose={() => setToast({ message: "", type: "" })}
-          />
+          <Toast {...toast} onClose={handleToastClose} />
         ) : (
           <></>
         )}
       </div>
-      <div className="m-2 p-2 rounded-md overflow-auto border border-secondary">
-        <CategoryList
-          categories={categories}
-          selected={selected}
-          handleDeleteCategory={handleDeleteCategory}
-          handleEditCategory={handleEditCategory}
-          handleSelectCategory={handleSelectCategory}
-        />
+
+      <div className="m-1 p-2 rounded-md border border-secondary h-5/6 overflow-auto">
+        {categories && (
+          <CategoryList
+            categories={categories}
+            selected={selected}
+            handleDeleteCategory={handleDeleteCategory}
+            handleEditCategory={handleEditCategory}
+            handleSelectCategory={handleSelectCategory}
+          />
+        )}
       </div>
-      <div className="flex justify-end p-4 gap-2">
+      <div className="flex justify-end p-4 gap-2 bg-white">
         <input
           type="text"
           placeholder="Name of category..."
@@ -97,7 +99,7 @@ const CategoryHead = ({
 }) => (
   <div className="flex justify-between">
     <span>{item}</span>
-    <div className="flex gap-2">
+    <div className="flex gap-2 items-center">
       {item === selected ? (
         <EditDeleteButtons
           handleEdit={handleEditCategory}

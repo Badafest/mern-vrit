@@ -3,8 +3,14 @@ const vendorService = require("./vendor.service");
 const VendorController = {
   add: async (req, res) => {
     try {
-      const { name, location, email, phone } = req.body;
-      const vendor = await vendorService.add(name, location, email, phone);
+      const { name, location, email, phone, avatar } = req.body;
+      const vendor = await vendorService.add(
+        name,
+        location,
+        email,
+        phone,
+        avatar
+      );
       return res.status(200).json({
         message: "Successfully added vendor",
         vendor,
@@ -37,13 +43,15 @@ const VendorController = {
 
   edit: async (req, res) => {
     try {
-      const { name, new_name, new_location, new_email, new_phone } = req.body;
+      const { name, new_name, new_location, new_email, new_phone, new_avatar } =
+        req.body;
       const vendor = await vendorService.edit(
         name,
         new_name,
         new_location,
         new_email,
-        new_phone
+        new_phone,
+        new_avatar
       );
       return res.status(200).json({
         message: "Successfully edited vendor",
