@@ -62,3 +62,8 @@ input:focus {
 .link:focus {
   @apply border-gray-700 border-b-2;
 }
+
+*:disabled {
+  cursor: not-allowed !important;
+  opacity: 50% !important;
+}

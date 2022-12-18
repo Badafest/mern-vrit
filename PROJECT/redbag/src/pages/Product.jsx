@@ -1,28 +1,61 @@
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ClippedImg from "../components/Image/ClippedImage";
 import { PRODUCTS } from "../config/PRODUCTS";
-import { addToCart } from "../slices/cart.slice";
+import {
+  addToCart,
+  removeFromCart,
+  changeQuantity,
+} from "../slices/cart.slice";
 
 export default function Product() {
   const { id } = useParams();
-  const product = PRODUCTS[id];
-
+  const product = PRODUCTS.filter((item) => item._id === id)[0];
   const dispatch = useDispatch();
 
-  const handleAddToCart = () => {
-    dispatch(addToCart([product]));
+  const cart = useSelector((state) => state.cart.products);
+
+  const getQuantity = () => {
+    const productInCart = cart.filter(
+      (cartItem) => cartItem.item._id === product._id
+    )[0];
+    return productInCart ? productInCart.quantity : 0;
   };
 
-  const handleAddToFav = () => {
-    dispatch(addToCart([product]));
+  const handleAddToCart = () => {
+    const quantity = getQuantity();
+    if (quantity > 0) {
+      dispatch(removeFromCart(product._id));
+    } else {
+      console.log(quantity);
+      dispatch(addToCart(product));
+    }
+  };
+
+  const handleChangeBtn = (change) => {
+    const quantity = getQuantity();
+    if (quantity === 1 && change === -1) {
+      dispatch(removeFromCart(product._id));
+    }
+    dispatch(changeQuantity({ _id: product._id, change }));
+  };
+
+  const handleAddFavorite = () => {
+    console.log("Favorites...");
   };
 
   return (
     <div className="w-full">
       <div className="md:w-8/12 mx-auto bg-white shadow-lg rounded-md flex flex-col gap-2 justify-center">
-        <div className="bg-primary rounded-t-md text-light font-bold p-4 text-center">
-          {product.title}
+        <div className="bg-primary rounded-t-md text-light p-4 text-center flex items-center justify-between">
+          <div className="font-bold "> {product.name}</div>
+          <button
+            onClick={handleAddFavorite}
+            className="icon_text text-2xl p-1 rounded-full bg-light text-contrast hover:text-light hover:bg-contrast_dark active:bg-contrast_light"
+          >
+            favorite
+          </button>
         </div>
         <div className="flex justify-center text-sm">
           {product.category.map((category, index) => (
@@ -44,18 +77,33 @@ export default function Product() {
             <span className="text-sm px-1">{product.price}</span>
             <span className="text-sm px-1"> + {product.delivery}</span>
           </span>
-          <button
-            className="btn btn-primary w-full md:w-auto"
-            onClick={handleAddToFav}
-          >
-            Add to Favorites
-          </button>
-          <button
-            className="btn btn-primary w-full md:w-auto"
-            onClick={handleAddToCart}
-          >
-            Add to Cart
-          </button>
+          <div className="flex items-center gap-2 flex-grow mt-2 md:flex-grow-0">
+            <button
+              className="icon btn btn-primary md:w-auto"
+              disabled={getQuantity() === 0}
+              onClick={() => handleChangeBtn(-1)}
+            >
+              remove
+            </button>
+            <button
+              className="btn btn-primary md:w-auto"
+              onClick={handleAddToCart}
+            >
+              {(() => {
+                const quantity = getQuantity();
+                return quantity > 0
+                  ? `Remove ${quantity} item${quantity === 1 ? "" : "s"}`
+                  : "Add to Cart";
+              })()}
+            </button>
+            <button
+              className="icon btn btn-primary md:w-auto"
+              disabled={getQuantity() === 0}
+              onClick={() => handleChangeBtn(1)}
+            >
+              add
+            </button>
+          </div>
         </div>
 
         <div className="text-primary text-sm  mx-auto px-3">

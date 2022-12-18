@@ -24,8 +24,11 @@ const UserSchema = mongoose.Schema(
     },
     cart: [
       {
-        type: mongoose.Types.ObjectId,
-        ref: "Product",
+        item: {
+          type: mongoose.Types.ObjectId,
+          ref: "Product",
+        },
+        quantity: Number,
       },
     ],
     favorites: [
