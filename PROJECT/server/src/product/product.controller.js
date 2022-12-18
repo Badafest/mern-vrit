@@ -43,6 +43,58 @@ const ProductController = {
       });
     }
   },
+
+  edit: async (req, res) => {
+    try {
+      const {
+        name,
+        new_name,
+        new_vendor,
+        new_price,
+        new_stock,
+        new_category,
+        new_avatar,
+        new_description,
+      } = req.body;
+      const product = await ProductService.edit(
+        name,
+        new_name,
+        new_vendor,
+        new_price,
+        new_stock,
+        new_category,
+        new_avatar,
+        new_description
+      );
+      return res.status(200).json({
+        message: "Product edited successfully",
+        product: product,
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.code === 11000) {
+        error.message = `${Object.keys(error.keyPattern)[0]} is already taken`;
+      }
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
+
+  delete: async (req, res) => {
+    try {
+      const { name } = req.body;
+      await ProductService.delete(name);
+      return res.status(200).json({
+        message: "Product deleted successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
 };
 
 module.exports = ProductController;

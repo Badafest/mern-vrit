@@ -24,20 +24,24 @@ const ProductController = {
   edit: async (
     name,
     new_name,
-    new_location,
-    new_email,
-    new_phone,
-    new_avatar
+    new_vendor,
+    new_price,
+    new_stock,
+    new_category,
+    new_avatar,
+    new_description
   ) => {
     try {
-      const image = avatar ? await readFile(new_avatar) : "";
+      const image = new_avatar ? await readFile(new_avatar) : "";
       const { data } = await axios.patch("/product/edit", {
         name,
         new_name,
-        new_location,
-        new_email,
-        new_phone,
+        new_vendor,
+        new_price,
+        new_stock,
+        new_category,
         new_avatar: image,
+        new_description,
       });
       return data;
     } catch (error) {

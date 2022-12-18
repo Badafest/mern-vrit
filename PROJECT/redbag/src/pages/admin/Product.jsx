@@ -78,16 +78,20 @@ export default function Product() {
     const price = addProductPriceRef.current.value;
     const stock = addProductStockRef.current.value;
     const avatar = addProductAvatarRef.current.files[0];
+    const vendor = addProductVendorRef.current.value;
+    const category = new FormData(addProductCategoryRef.current).keys();
 
     try {
       addProductAvatarRef.current.value = "";
       const data = await ProductController.edit(
         selected,
         name,
-        description,
+        vendor,
         price,
         stock,
-        avatar
+        Array.from(category),
+        avatar,
+        description
       );
       setToast({ message: data.message, type: "success" });
     } catch (error) {

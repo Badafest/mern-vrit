@@ -24,7 +24,7 @@ class ProductService {
       description,
     });
 
-    if (category && category.length) {
+    if (await validate(category)) {
       const categories = await Promise.all(
         category.map(async (item) => {
           const category = await this.Category.findOne({ name: item });
@@ -34,8 +34,80 @@ class ProductService {
       product.categories = categories;
     }
 
-    if (avatar && avatar.length) {
+    if (await validate(avatar)) {
       const url = await cloudinary.upload(avatar, "products");
+      product.avatar = url;
+    }
+    await product.save();
+    return product;
+  }
+
+  async fetchAll() {
+    const products = await this.Product.find({}).populate("vendor categories");
+    return products.map((product) => ({
+      ...product._doc,
+      categories: product.categories.map(
+        (category) => category.name || "Not Available"
+      ),
+      vendor: product.vendor?.name || "Not Available",
+    }));
+  }
+
+  async edit(
+    name,
+    new_name,
+    new_vendor,
+    new_price,
+    new_stock,
+    new_category,
+    new_avatar,
+    new_description
+  ) {
+    const product = await this.Product.findOne({ name });
+
+    if (!product) {
+      throw new Error("Product not found");
+    }
+
+    if (await validate(new_name)) {
+      product.name = new_name;
+    }
+
+    if (await validate(new_vendor)) {
+      product.vendor = new_vendor;
+    }
+
+    if (await validate(new_price)) {
+      product.price = new_price;
+    }
+
+    if (await validate(new_stock)) {
+      product.stock = new_stock;
+    }
+
+    if (await validate(new_description)) {
+      product.description = new_description;
+    }
+
+    if (await validate(new_category)) {
+      const categories = await Promise.all(
+        new_category.map(async (item) => {
+          const category = await this.Category.findOne({ name: item });
+          return category._id;
+        })
+      );
+      product.categories = categories;
+    }
+
+    if (await validate(new_avatar)) {
+      const old_avatar = product.avatar;
+      if (old_avatar && old_avatar.length) {
+        const { result } = await cloudinary.destroy(old_avatar);
+        if (result !== "ok") {
+          throw new Error("Problem while replacing image");
+        }
+      }
+      const url = await cloudinary.upload(new_avatar, "products");
       product.avatar = url;
     }
 
@@ -43,17 +115,16 @@ class ProductService {
     return product;
   }
 
-  async fetchAll() {
-    const products = await this.Product.find({})
-      .populate("vendor")
-      .populate("categories");
-    return products.map((product) => ({
-      ...product._doc,
-      vendor: product._doc.vendor?.name || "Not Available",
-      categories: product._doc.categories.map(
-        (category) => category.name || "Not Available"
-      ),
-    }));
+  async delete(name) {
+    if (!(await validate(name))) {
+      throw new Error("Name is required");
+    }
+    const product = await this.Product.findOne({ name });
+    if (!product) {
+      throw new Error("Product not found");
+    }
+    await product.remove();
+    return true;
   }
 }
 
