@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import App from "./App";
 import Error from "./pages/Error";
@@ -13,6 +13,7 @@ import Register from "./pages/Register";
 import PrivateProvider from "./components/Providers/PrivateProvider";
 import Account from "./pages/private/Account";
 import Checkout from "./pages/private/Checkout";
+import Cart from "./pages/private/Cart";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Product from "./pages/Product";
@@ -75,10 +76,14 @@ export default createBrowserRouter([
         children: [
           {
             path: "/app",
-            element: <Checkout />,
+            element: <Navigate to="/app/cart" />,
           },
           {
-            path: "/app/checkout",
+            path: "/app/cart",
+            element: <Cart />,
+          },
+          {
+            path: "/app/pay",
             element: <Checkout />,
           },
           {

@@ -53,6 +53,73 @@ class ProductService {
     }));
   }
 
+  async fetchRandom() {
+    const products = await this.Product.find({})
+      .populate("vendor categories")
+      .limit(5);
+    return products.map((product) => ({
+      ...product._doc,
+      categories: product.categories.map(
+        (category) => category.name || "Not Available"
+      ),
+      vendor: product.vendor?.name || "Not Available",
+    }));
+  }
+
+  async fetchById(_id) {
+    const product = await this.Product.findById(_id).populate(
+      "vendor categories"
+    );
+
+    return [
+      {
+        ...product._doc,
+        categories: product.categories.map(
+          (category) => category.name || "Not Available"
+        ),
+        vendor: product.vendor?.name || "Not Available",
+      },
+    ];
+  }
+
+  async fetchFiltered(category, vendor, price, index, total) {
+    console.log(category, vendor, price, index, total);
+    let products = await this.Product.find({}).populate("vendor categories");
+
+    if (await validate(vendor)) {
+      products = products.filter((product) =>
+        vendor.includes(product.vendor.name)
+      );
+    }
+
+    if (await validate(price)) {
+      products = products.filter(
+        (product) => price[0] <= product.price && product.price <= price[1]
+      );
+    }
+
+    if (await validate(category)) {
+      products = products.filter((product) =>
+        product.categories.some((productCategory) =>
+          category.includes(productCategory.name)
+        )
+      );
+    }
+
+    const count = parseInt(total || 1);
+    const from = count * (parseInt(index || 1) - 1);
+
+    products = products.splice(from, count);
+
+    return products.map((product) => ({
+      ...product._doc,
+      categories: product.categories.map(
+        (category) => category.name || "Not Available"
+      ),
+      vendor: product.vendor?.name || "Not Available",
+    }));
+  }
+
   async edit(
     name,
     new_name,

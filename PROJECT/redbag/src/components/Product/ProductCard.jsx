@@ -1,35 +1,45 @@
 import { Link } from "react-router-dom";
-import { PRODUCTS } from "../../config/PRODUCTS";
 import ClippedImg from "../Image/ClippedImage";
 
 export default function ProductCard({ product }) {
   return (
     <Link
-      to={"/product/" + PRODUCTS.indexOf(product)}
+      to={"/product/" + product._id}
       className="w-60 rounded-xl bg-white shadow-lg flex-shrink-0 cursor-pointer"
     >
       <ClippedImg
         width="100%"
         height="11rem"
         radius="0.75rem"
-        src="/assets/redbag.png"
-        alt={product.title}
+        src={product.avatar || "/assets/logo.svg"}
+        alt={product.name}
       />
       <div className="px-4 my-2 flex flex-col gap-1">
-        <div className="text-center text-lg">{product.title}</div>
+        <div className="text-center text-lg">{product.name}</div>
         <div className="text-xs text-contrast flex justify-between">
-          <span>{product.vendor}</span>
+          <span>{product.vendor.name}</span>
           <span className="flex items-center">
-            <span className="icon_text text-sm">grade</span>
-            {product.rating} ({product.reviews})
+            <span className="icon_text text-sm">star</span>
+            {getRating(product.reviews)} ({product.reviews.length})
           </span>
         </div>
         <div className="flex justify-between font-bold text-sm">
           <span>{product.price}</span>
           <span>{product.stock} in stock</span>
         </div>
-        <div className="text-xs">{product.description}</div>
+        <div className="text-xs overflow-hidden">
+          <pre>{product.description}</pre>
+        </div>
       </div>
     </Link>
   );
 }
+
+const getRating = (reviews) => {
+  if (!reviews || reviews.length === 0) {
+    return "NA";
+  }
+  const ratings = reviews.map((review) => review.rating);
+  const rating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+  return rating;
+};

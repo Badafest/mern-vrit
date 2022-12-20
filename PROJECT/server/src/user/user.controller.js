@@ -48,6 +48,37 @@ const UserController = {
       });
     }
   },
+
+  dumpCart: async (req, res) => {
+    try {
+      const { cart } = req.body;
+      await userService.dumpCart(req._id, cart);
+      return res.status(200).json({
+        message: "Successfully dumped cart",
+        cart,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
+
+  getCart: async (req, res) => {
+    try {
+      const cart = await userService.getCart(req._id);
+      return res.status(200).json({
+        message: "Successfully fetched cart",
+        cart,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
 };
 
 module.exports = UserController;

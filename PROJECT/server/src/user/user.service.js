@@ -1,4 +1,5 @@
 const cloudinary = require("../config/cloudinary");
+const ProductService = require("../product/product.service");
 const User = require("./User");
 
 class UserService {
@@ -45,6 +46,28 @@ class UserService {
       user.avatar = "";
       await user.save();
     }
+  }
+
+  async dumpCart(_id, cart) {
+    await this.User.findByIdAndUpdate(_id, {
+      cart: cart.map((product) => ({
+        item: product.item._id,
+        quantity: product.quantity,
+      })),
+    });
+  }
+
+  async getCart(_id) {
+    const user = await this.User.findById(_id);
+    if (!user) {
+      throw new Error("No user found");
+    }
+    return Promise.all(
+      user.cart.map(async (product) => ({
+        item: (await ProductService.fetchById(product.item._id))[0],
+        quantity: product.quantity,
+      }))
+    );
   }
 }
 

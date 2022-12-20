@@ -1,4 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "../config/axios";
+
+export const fetchUserCart = createAsyncThunk(
+  "cart/fetchUserCart",
+  async () => {
+    const { data } = await axios.get("/user/cart");
+    return data.cart;
+  }
+);
 
 export const CartSlice = createSlice({
   name: "cart",
@@ -30,9 +39,20 @@ export const CartSlice = createSlice({
           : product
       );
     },
+
+    clearCart: (state) => {
+      state.products = [];
+    },
+  },
+
+  extraReducers: (builder) => {
+    builder.addCase(fetchUserCart.fulfilled, (state, { payload }) => {
+      state.products = payload;
+    });
   },
 });
 
-export const { addToCart, removeFromCart, changeQuantity } = CartSlice.actions;
+export const { addToCart, removeFromCart, changeQuantity, clearCart } =
+  CartSlice.actions;
 
 export default CartSlice.reducer;

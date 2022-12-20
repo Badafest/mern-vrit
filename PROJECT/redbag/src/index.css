@@ -13,7 +13,8 @@
   src: url("/font/montserrat-italic.ttf");
 }
 
-* {
+*,
+pre {
   font-family: "montserrat";
 }
 

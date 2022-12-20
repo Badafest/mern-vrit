@@ -5,7 +5,6 @@ const ProductSchema = mongoose.Schema(
     name: {
       type: String,
       required: "Name is required",
-      unique: true,
     },
     vendor: {
       type: mongoose.Types.ObjectId,
@@ -13,7 +12,7 @@ const ProductSchema = mongoose.Schema(
       required: "Vendor is required",
     },
     price: {
-      type: String,
+      type: Number,
       required: "Price is required",
     },
     avatar: String,

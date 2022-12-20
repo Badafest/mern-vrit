@@ -6,9 +6,12 @@ export default function SecondNav() {
 
   return (
     <div className="bg-light flex flex-col gap-4 p-2 justify-center items-center border border-tertiary md:flex-row md:gap-12">
-      <div className="btn-primary btn rounded-lg w-8/12">
+      <Link
+        to="/products?category=Flash Sale"
+        className="btn-primary btn rounded-lg w-8/12"
+      >
         Only a few hours left before flash sale ends!
-      </div>
+      </Link>
       <div className="flex gap-6">
         <Link to="/app" className="flex flex-col items-center relative">
           {products.length > 0 ? (

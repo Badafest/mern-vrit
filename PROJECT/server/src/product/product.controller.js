@@ -20,9 +20,6 @@ const ProductController = {
       });
     } catch (error) {
       console.log(error);
-      if (error.code === 11000) {
-        error.message = `${Object.keys(error.keyPattern)[0]} is already taken`;
-      }
       return res.status(500).json({
         error: error.message,
       });
@@ -34,6 +31,59 @@ const ProductController = {
       const products = await ProductService.fetchAll();
       return res.status(200).json({
         message: "Products fetched successfully",
+        products,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
+
+  fetchRandom: async (_, res) => {
+    try {
+      const products = await ProductService.fetchRandom();
+      return res.status(200).json({
+        message: "Products fetched successfully",
+        products,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
+
+  fetchFiltered: async (req, res) => {
+    try {
+      const { category, vendor, price, index, total } = req.body;
+      const products = await ProductService.fetchFiltered(
+        category,
+        vendor,
+        price,
+        index,
+        total
+      );
+      return res.status(200).json({
+        message: "Products fetched successfully",
+        products,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
+
+  fetchById: async (req, res) => {
+    try {
+      const { _id } = req.params;
+      const products = await ProductService.fetchById(_id);
+      return res.status(200).json({
+        message: "Product fetched successfully",
         products,
       });
     } catch (error) {

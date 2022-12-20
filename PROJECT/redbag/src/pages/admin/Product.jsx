@@ -274,7 +274,7 @@ const ProductHead = ({
       <div className="min-w-sm border-x p-2 flex items-center justify-center h-max w-1/12">
         {item.price} | {item.stock}
       </div>
-      <div className="min-w-sm border p-2  flex items-center justify-center h-24 overflow-auto w-3/12">
+      <div className="min-w-sm border p-2 flex items-center h-24 overflow-auto w-3/12">
         <pre>{item.description}</pre>
       </div>
     </div>

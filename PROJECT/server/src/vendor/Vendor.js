@@ -12,7 +12,7 @@ const VendorSchema = mongoose.Schema({
     unique: true,
   },
   phone: {
-    type: Number,
+    type: String,
     required: "Phone number is required",
     unique: true,
   },
