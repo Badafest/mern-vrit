@@ -1,10 +1,13 @@
 import { useContext, useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserAvatar from "../../components/Image/UserAvatar";
 import Toast from "../../components/Toast";
 
 import { UserContext } from "../../context/user.context";
 import UserController from "../../controllers/UserController";
+import { clearCart } from "../../slices/cart.slice";
+import { clearFavorites } from "../../slices/favorites.slice";
 
 export default function () {
   const { user, changeUser } = useContext(UserContext);
@@ -12,6 +15,8 @@ export default function () {
 
   const [toast, setToast] = useState({ message: "", type: "" });
   const [userData, setUserData] = useState({});
+
+  const dispatch = useDispatch();
 
   const avatarRef = useRef();
 
@@ -27,8 +32,12 @@ export default function () {
   }, []);
 
   const handleLogout = () => {
+    dispatch(clearCart());
+    dispatch(clearFavorites());
     changeUser({ username: "", _id: "" });
     localStorage.removeItem("user");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
     navigate("/");
   };
 

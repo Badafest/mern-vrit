@@ -48,6 +48,22 @@ class UserService {
     }
   }
 
+  async dumpFavorites(_id, favorites) {
+    await this.User.findByIdAndUpdate(_id, { favorites });
+  }
+
+  async getFavorites(_id) {
+    const user = await this.User.findById(_id);
+    if (!user) {
+      throw new Error("No user found");
+    }
+    return Promise.all(
+      user.favorites.map(
+        async (product) => (await ProductService.fetchById(product._id))[0]
+      )
+    );
+  }
+
   async dumpCart(_id, cart) {
     await this.User.findByIdAndUpdate(_id, {
       cart: cart.map((product) => ({

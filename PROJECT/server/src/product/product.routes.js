@@ -11,6 +11,8 @@ router.post("/fetch_filtered", ProductController.fetchFiltered);
 
 router.get("/fetch_by_id/:_id", ProductController.fetchById);
 
+router.get("/search", ProductController.search);
+
 router.get(
   "/fetch_all",
   verifyAccessToken,

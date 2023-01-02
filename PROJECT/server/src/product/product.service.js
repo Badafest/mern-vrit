@@ -1,14 +1,18 @@
 const cloudinary = require("../config/cloudinary");
+const validate = require("../validate");
+
 const Product = require("./Product");
 const Category = require("../category/Category");
-const validate = require("../validate");
+const Vendor = require("../vendor/Vendor");
 
 class ProductService {
   Product;
   Category;
+  Vendor;
   constructor(Product, Category) {
     this.Product = Product;
     this.Category = Category;
+    this.Vendor = Vendor;
   }
 
   async add(name, vendor, price, stock, category, avatar, description) {
@@ -42,8 +46,7 @@ class ProductService {
     return product;
   }
 
-  async fetchAll() {
-    const products = await this.Product.find({}).populate("vendor categories");
+  fillNames(products) {
     return products.map((product) => ({
       ...product._doc,
       categories: product.categories.map(
@@ -51,73 +54,88 @@ class ProductService {
       ),
       vendor: product.vendor?.name || "Not Available",
     }));
+  }
+
+  async fetchAll() {
+    const products = await this.Product.find({}).populate("vendor categories");
+    return this.fillNames(products);
   }
 
   async fetchRandom() {
     const products = await this.Product.find({})
       .populate("vendor categories")
       .limit(5);
-    return products.map((product) => ({
-      ...product._doc,
-      categories: product.categories.map(
-        (category) => category.name || "Not Available"
-      ),
-      vendor: product.vendor?.name || "Not Available",
-    }));
+    return this.fillNames(products);
   }
 
   async fetchById(_id) {
     const product = await this.Product.findById(_id).populate(
       "vendor categories"
     );
-
-    return [
-      {
-        ...product._doc,
-        categories: product.categories.map(
-          (category) => category.name || "Not Available"
-        ),
-        vendor: product.vendor?.name || "Not Available",
-      },
-    ];
+    return this.fillNames([product]);
   }
 
   async fetchFiltered(category, vendor, price, index, total) {
-    console.log(category, vendor, price, index, total);
-    let products = await this.Product.find({}).populate("vendor categories");
+    const filter = {};
 
     if (await validate(vendor)) {
-      products = products.filter((product) =>
-        vendor.includes(product.vendor.name)
-      );
-    }
-
-    if (await validate(price)) {
-      products = products.filter(
-        (product) => price[0] <= product.price && product.price <= price[1]
-      );
+      filter.vendor = {
+        $in: await Promise.all(
+          vendor.map(async (item) => await this.Vendor.findOne({ name: item }))
+        ),
+      };
     }
 
     if (await validate(category)) {
-      products = products.filter((product) =>
-        product.categories.some((productCategory) =>
-          category.includes(productCategory.name)
-        )
-      );
+      filter.categories = {
+        $in: await Promise.all(
+          category.map(
+            async (item) => await this.Category.findOne({ name: item })
+          )
+        ),
+      };
+    }
+
+    if (await validate(price)) {
+      filter.price = {
+        $gte: price[0],
+        $lte: price[1],
+      };
     }
 
     const count = parseInt(total || 1);
     const from = count * (parseInt(index || 1) - 1);
 
-    products = products.splice(from, count);
+    let products = await this.Product.find(filter)
+      .skip(from)
+      .limit(count)
+      .populate("vendor categories");
 
-    return products.map((product) => ({
-      ...product._doc,
-      categories: product.categories.map(
-        (category) => category.name || "Not Available"
-      ),
-      vendor: product.vendor?.name || "Not Available",
-    }));
+    return this.fillNames(products);
+  }
+
+  async fetchSearch(query) {
+    if (!(await validate(query))) {
+      throw new Error("Query is required");
+    }
+
+    const pattern = new RegExp(`${query.replaceAll(" ", "|")}`, "i");
+    console.log(pattern);
+
+    const products = await this.Product.find(
+      {
+        $or: [{ name: pattern }, { description: pattern }],
+      },
+      "_id name"
+    );
+    const categories = await this.Category.find({ name: pattern }, "-_id name");
+    const vendors = await this.Vendor.find({ name: pattern }, "-_id name");
+
+    return {
+      products,
+      categories: categories.map((x) => x.name),
+      vendors: vendors.map((x) => x.name),
+    };
   }
 
   async edit(
@@ -195,4 +213,4 @@ class ProductService {
   }
 }
 
-module.exports = new ProductService(Product, Category);
+module.exports = new ProductService(Product, Category, Vendor);

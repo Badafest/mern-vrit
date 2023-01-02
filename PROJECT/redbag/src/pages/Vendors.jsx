@@ -1,3 +1,48 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAll } from "../slices/vendor.slice";
+import UserAvatar from "../components/Image/UserAvatar";
+import { Link } from "react-router-dom";
+
 export default function () {
-  return <div>Vendors...</div>;
+  const vendors = useSelector((state) => state.vendor.value);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAll());
+  }, []);
+
+  return (
+    <div className="flex flex-wrap max-w-3xl gap-2 justify-center">
+      {vendors.map((vendor, index) => (
+        <Link
+          to={`/products?vendor=${vendor.name}`}
+          className="bg-white shadow-md rounded-md p-4 flex gap-4 items-center flex-1"
+          key={index}
+        >
+          <div className="flex-grow-1">
+            <UserAvatar
+              user={{ username: vendor.name, avatar: vendor.avatar }}
+              size={80}
+            />
+          </div>
+          <div className="text-primary">
+            <p className="text-lg font-bold">{vendor.name}</p>
+            <p className="flex items-center gap-1">
+              <span className="icon_text text-tertiary_dark">email</span>{" "}
+              {vendor.email}
+            </p>
+            <p className="flex items-center gap-1">
+              <span className="icon_text text-tertiary_dark">phone</span>{" "}
+              {vendor.phone}
+            </p>
+            <p className="flex items-center gap-1">
+              <span className="icon_text text-tertiary_dark">location_on</span>{" "}
+              {vendor.location}
+            </p>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
 }

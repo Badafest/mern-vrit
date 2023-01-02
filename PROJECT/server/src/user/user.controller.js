@@ -49,6 +49,37 @@ const UserController = {
     }
   },
 
+  dumpFavorites: async (req, res) => {
+    try {
+      const { favorites } = req.body;
+      await userService.dumpFavorites(req._id, favorites);
+      return res.status(200).json({
+        message: "Successfully dumped favorites",
+        favorites,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
+
+  getFavorites: async (req, res) => {
+    try {
+      const favorites = await userService.getFavorites(req._id);
+      return res.status(200).json({
+        message: "Successfully fetched favorites",
+        favorites,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
+
   dumpCart: async (req, res) => {
     try {
       const { cart } = req.body;

@@ -18,4 +18,18 @@ router.post(
   UserController.dumpCart
 );
 
+router.get(
+  "/favorites",
+  verifyAccessToken,
+  verifyBuyerRole,
+  UserController.getFavorites
+);
+
+router.post(
+  "/favorites",
+  verifyAccessToken,
+  verifyBuyerRole,
+  UserController.dumpFavorites
+);
+
 module.exports = router;

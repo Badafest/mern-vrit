@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import ProductBanner from "../components/Product/ProductBanner";
-import axios from "../config/axios";
+import { fetchFiltered } from "../helpers";
 
 export default function Landing() {
   const [trending, setTrending] = useState([]);
@@ -27,7 +27,7 @@ export default function Landing() {
       />
       <ProductBanner
         products={topPicks}
-        viewAllLink="/products?category=topPicks"
+        viewAllLink="/products?category=Top Picks"
         title="Top Picks"
       />
       <ProductBanner
@@ -44,13 +44,3 @@ export default function Landing() {
     </div>
   );
 }
-
-const fetchFiltered = async (filter, then) => {
-  try {
-    const response = await axios.post("/product/fetch_filtered", filter);
-    then(response.data.products);
-  } catch (error) {
-    console.log(error);
-    then([]);
-  }
-};

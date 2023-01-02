@@ -15,9 +15,17 @@ export default function ProductBanner({ products, viewAllLink, title }) {
         </Link>
       </div>
       <div className="flex gap-2 overflow-x-scroll items-center py-4">
-        {products.map((product, index) => (
-          <ProductCard key={index} product={product} />
-        ))}
+        {products.length ? (
+          <>
+            {products.map((product, index) => (
+              <ProductCard key={index} product={product} />
+            ))}
+          </>
+        ) : (
+          <div className="bg-white shadow-md rounded-md flex justify-center items-center w-full h-60">
+            <p className="text-gray-500">Nothing was found to show here.</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -11,6 +11,11 @@ import {
 } from "../slices/cart.slice";
 import { fetchById } from "../slices/product.slice";
 import Toast from "../components/Toast";
+import {
+  addToFavorites,
+  fetchUserFavorites,
+  removeFromFavorites,
+} from "../slices/favorites.slice";
 
 export default function Product() {
   const { id } = useParams();
@@ -19,6 +24,8 @@ export default function Product() {
 
   const cart = useSelector((state) => state.cart.products);
 
+  const favorites = useSelector((state) => state.favorites.products);
+
   const dispatch = useDispatch();
 
   const [toast, setToast] = useState({ message: "", type: "" });
@@ -26,11 +33,16 @@ export default function Product() {
   useEffect(() => {
     dispatch(fetchById(id));
     dispatch(fetchUserCart());
-  }, []);
+    dispatch(fetchUserFavorites());
+  }, [id]);
 
   useEffect(() => {
     axios.post("/user/cart", { cart });
   }, [cart]);
+
+  useEffect(() => {
+    axios.post("/user/favorites", { favorites });
+  }, [favorites]);
 
   const getQuantity = () => {
     const productInCart = cart.filter(
@@ -38,6 +50,9 @@ export default function Product() {
     )[0];
     return productInCart ? productInCart.quantity : 0;
   };
+
+  const isInFavorites = () =>
+    favorites.filter((favItem) => favItem._id === product._id).length === 1;
 
   const handleAddToCart = async () => {
     const quantity = getQuantity();
@@ -57,14 +72,20 @@ export default function Product() {
   };
 
   const handleAddFavorite = () => {
-    console.log("Favorites...");
+    if (isInFavorites()) {
+      dispatch(removeFromFavorites(product._id));
+    } else {
+      dispatch(addToFavorites(product));
+    }
   };
 
   return (
     <div className="w-full">
       {product && (
         <div className="md:w-8/12 mx-auto bg-white shadow-lg rounded-md flex flex-col gap-2 justify-center">
-          <ProductHead {...{ product, handleAddFavorite }} />
+          <ProductHead
+            {...{ product, handleAddFavorite, isInFavorites: isInFavorites() }}
+          />
 
           <div className="mx-auto mb-4">
             <ClippedImg
@@ -96,13 +117,17 @@ export default function Product() {
   );
 }
 
-const ProductHead = ({ product, handleAddFavorite }) => (
+const ProductHead = ({ product, handleAddFavorite, isInFavorites }) => (
   <>
     <div className="bg-primary rounded-t-md text-light p-4 text-center flex items-center justify-between">
       <div className="font-bold "> {product.name}</div>
       <button
         onClick={handleAddFavorite}
-        className="icon_text text-2xl p-1 rounded-full bg-light text-contrast hover:text-light hover:bg-contrast_dark active:bg-contrast_light"
+        className={`icon_text text-2xl p-1 rounded-full ${
+          isInFavorites
+            ? "bg-contrast_dark text-light"
+            : "bg-light text-contrast"
+        }`}
       >
         favorite
       </button>

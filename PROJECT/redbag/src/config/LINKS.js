@@ -12,16 +12,16 @@ export default function LINKS(user) {
       icon: "storefront",
       classes: "btn btn-primary",
     },
-    {
-      to: "/help",
-      name: "Help",
-      icon: "support",
-    },
-    {
-      to: "/contact",
-      name: "Contact",
-      icon: "phone_in_talk",
-    },
+    // {
+    //   to: "/help",
+    //   name: "Help",
+    //   icon: "support",
+    // },
+    // {
+    //   to: "/contact",
+    //   name: "Contact",
+    //   icon: "phone_in_talk",
+    // },
     user && user._id && user.username
       ? {
           to: "/app/account/" + user._id,

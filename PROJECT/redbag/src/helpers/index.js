@@ -1,3 +1,5 @@
+import axios from "../config/axios";
+
 export const readFile = (file) =>
   new Promise((resolve, reject) => {
     try {
@@ -10,3 +12,13 @@ export const readFile = (file) =>
       reject(error);
     }
   });
+
+export const fetchFiltered = async (filter, then) => {
+  try {
+    const response = await axios.post("/product/fetch_filtered", filter);
+    then(response.data.products);
+  } catch (error) {
+    console.log(error);
+    then([]);
+  }
+};

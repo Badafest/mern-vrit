@@ -5,11 +5,11 @@ export default function ProductCard({ product }) {
   return (
     <Link
       to={"/product/" + product._id}
-      className="w-60 rounded-xl bg-white shadow-lg flex-shrink-0 cursor-pointer"
+      className="w-60 rounded-xl bg-white shadow-lg flex flex-col h-full max-h-96 cursor-pointer"
     >
       <ClippedImg
         width="100%"
-        height="11rem"
+        height="100%"
         radius="0.75rem"
         src={product.avatar || "/assets/logo.svg"}
         alt={product.name}

@@ -42,7 +42,6 @@ const CategoryController = {
   delete: async (req, res) => {
     try {
       const { name } = req.body;
-      console.log(req.body);
       await CategoryService.delete(name);
       return res.status(200).json({
         message:

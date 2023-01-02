@@ -94,6 +94,23 @@ const ProductController = {
     }
   },
 
+  search: async (req, res) => {
+    try {
+      const { query } = req.query;
+      console.log(query);
+      const suggestions = await ProductService.fetchSearch(query);
+      return res.status(200).json({
+        message: "Product fetched successfully",
+        suggestions,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
+
   edit: async (req, res) => {
     try {
       const {

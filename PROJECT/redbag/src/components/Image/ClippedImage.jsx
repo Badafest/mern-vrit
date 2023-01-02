@@ -8,6 +8,7 @@ export default function ClippedImg({ src, alt, width, height, radius }) {
         WebkitBorderRadius: `${radius}`,
         overflow: "hidden",
         objectFit: "cover",
+        flexGrow: 1,
       }}
       src={src}
       alt={alt}

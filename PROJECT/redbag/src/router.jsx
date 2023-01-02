@@ -14,6 +14,7 @@ import PrivateProvider from "./components/Providers/PrivateProvider";
 import Account from "./pages/private/Account";
 import Checkout from "./pages/private/Checkout";
 import Cart from "./pages/private/Cart";
+import Favorites from "./pages/private/Favorites";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Product from "./pages/Product";
@@ -81,6 +82,10 @@ export default createBrowserRouter([
           {
             path: "/app/cart",
             element: <Cart />,
+          },
+          {
+            path: "/app/favorites",
+            element: <Favorites />,
           },
           {
             path: "/app/pay",
