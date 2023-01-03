@@ -6,16 +6,19 @@ export interface IConversation {
   members: mongoose.Types.ObjectId[];
 }
 
-const ConversationSchema = new mongoose.Schema<IConversation>({
-  name: {
-    type: String,
-    required: [true, "Conversation name is required"],
+const ConversationSchema = new mongoose.Schema<IConversation>(
+  {
+    name: {
+      type: String,
+      required: [true, "Conversation name is required"],
+    },
+    members: {
+      type: [Schema.Types.ObjectId],
+      ref: User,
+    },
   },
-  members: {
-    type: [Schema.Types.ObjectId],
-    ref: User,
-  },
-});
+  { timestamps: true }
+);
 
 const Conversation = mongoose.model("conversation", ConversationSchema);
 
