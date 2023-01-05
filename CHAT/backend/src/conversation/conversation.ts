@@ -11,6 +11,7 @@ const ConversationSchema = new mongoose.Schema<IConversation>(
     name: {
       type: String,
       required: [true, "Conversation name is required"],
+      unique: true,
     },
     members: {
       type: [Schema.Types.ObjectId],

@@ -19,7 +19,7 @@ export interface IMessage {
   createdAt: string;
 }
 
-export default function Home() {
+export default function App() {
   const [conversations, setConversations] = useState<IConversation[]>([]);
   const [active, setActive] = useState("");
 
@@ -99,7 +99,8 @@ const ApplicationBody = ({ conversation }: IApplicationBodyProps) => {
   const sendNewMessage = (event: Event | FormEvent) => {
     event.preventDefault();
     if (newMessage.length > 0) {
-      console.log(newMessage); //send message to backend and fetch messages
+      console.log(newMessage); //send message to backend
+      conversation && getAllMessages(conversation);
       setNewMessage((_) => "");
     }
   };

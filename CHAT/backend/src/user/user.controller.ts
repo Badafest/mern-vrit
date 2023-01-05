@@ -1,22 +1,41 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import Controller from "../utilities/Controller";
 import UserService from "./user.service";
 
 const UserController = {
-  create: async (req: Request, res: Response) => {
-    try {
-      const { name } = req.body as { name: string };
-      const user = await UserService.createUser(name);
-      return res.status(200).json({
-        message: "User created successfully",
-        user,
-      });
-    } catch (error) {
-      return res.status(400).json({
-        message: "Failed to create user",
-        error,
-      });
-    }
-  },
+  create: Controller(
+    async (req: Request) => {
+      const { name, password } = req.body as {
+        name: string;
+        password: string;
+      };
+      const user = await UserService.createUser(name, password);
+      return { user };
+    },
+    "User created successfully",
+    "Failed to create user",
+    400
+  ),
+
+  login: Controller(
+    async (req: Request) => {
+      const { name, password } = req.body as {
+        name: string;
+        password: string;
+      };
+      const { access_token, refresh_token } = await UserService.logInUser(
+        name,
+        password
+      );
+      return {
+        access_token,
+        refresh_token,
+      };
+    },
+    "User logged in successfully",
+    "Failed to login user",
+    400
+  ),
 };
 
 export default UserController;

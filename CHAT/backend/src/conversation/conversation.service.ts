@@ -22,7 +22,10 @@ class ConversationService implements IConversationService {
   }
 
   async getAll() {
-    const allConversations = this._model.find({}).populate("members");
+    const allConversations = this._model
+      .find({})
+      .populate("members")
+      .populate("members.name");
     return allConversations;
   }
 }

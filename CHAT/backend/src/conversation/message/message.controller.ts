@@ -1,9 +1,10 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import Controller from "../../utilities/Controller";
 import MessageService from "./message.service";
 
 const MessageController = {
-  create: async (req: Request, res: Response) => {
-    try {
+  create: Controller(
+    async (req: Request) => {
       const { message, type, from_id, conversation_id } = req.body;
       const newMessage = await MessageService.create(
         type,
@@ -11,35 +12,27 @@ const MessageController = {
         message,
         conversation_id
       );
-      return res.status(200).json({
-        message: "Message created successfully",
-        newMessage,
-      });
-    } catch (error) {
-      return res.status(400).json({
-        message: "Failed to create message",
-        error,
-      });
-    }
-  },
+      return { newMessage };
+    },
+    "Message created successfully",
+    "Failed to create message",
+    400
+  ),
 
-  fetchByConversation: async (req: Request, res: Response) => {
-    try {
+  fetchByConversation: Controller(
+    async (req: Request) => {
       const { conversation_id } = req.params;
       const messages = await MessageService.fetchByConversation(
         conversation_id
       );
-      return res.status(200).json({
-        message: "Messages fetched successfully",
+      return {
         messages,
-      });
-    } catch (error) {
-      return res.status(400).json({
-        message: "Failed to fetch messages",
-        error,
-      });
-    }
-  },
+      };
+    },
+    "Messages fetched successfully",
+    "Failed to fetch messages",
+    400
+  ),
 };
 
 export default MessageController;
