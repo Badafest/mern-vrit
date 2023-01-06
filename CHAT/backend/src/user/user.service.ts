@@ -5,7 +5,14 @@ import { generateAToken } from "../helpers";
 import ENVIRONMENT from "../config/vars";
 
 interface IUserService {
-  createUser(name: string, password: string): Promise<IUser>;
+  createUser(name: string, password: string): Promise<{ user: string }>;
+  logInUser(
+    name: string,
+    password: string
+  ): Promise<{
+    access_token: string;
+    refresh_token: string;
+  }>;
 }
 
 class UserService implements IUserService {
@@ -13,11 +20,6 @@ class UserService implements IUserService {
 
   constructor(_model: mongoose.Model<IUser>) {
     this._model = _model;
-  }
-
-  async createUser(name: string, password: string) {
-    const newUser = await this._model.create({ name, password });
-    return newUser;
   }
 
   async logInUser(name: string, password: string) {
@@ -41,6 +43,11 @@ class UserService implements IUserService {
     user.refresh_token = refresh_token;
     user.save();
     return { access_token, refresh_token };
+  }
+
+  async createUser(name: string, password: string) {
+    const newUser = await this._model.create({ name, password });
+    return { user: newUser.name };
   }
 }
 
