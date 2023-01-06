@@ -27,6 +27,7 @@ class UserService implements IUserService {
     if (!user) {
       throw new Error("Username or password is incorrect");
     }
+    console.log(password, user.password);
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       throw new Error("Username or password is incorrect");

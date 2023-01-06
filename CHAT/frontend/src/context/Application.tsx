@@ -4,6 +4,7 @@ import { FormEvent } from "react";
 
 interface IApplicationContext {
   userId?: string;
+  conversation?: IConversation;
   allMessages?: IMessage[];
   newMessage?: string;
   setNewMessage: (message: string) => void;
@@ -17,10 +18,14 @@ export const ApplicationContext = createContext<IApplicationContext>({
   sendNewMessage: (_: Event | FormEvent) => {},
 });
 
-export default function ApplicationProvider(
-  conversation: IConversation | undefined,
-  { children }: PropsWithChildren
-) {
+interface IApplicationContextProps extends PropsWithChildren {
+  conversation: IConversation | undefined;
+}
+
+export default function ApplicationProvider({
+  conversation,
+  ...rest
+}: IApplicationContextProps) {
   const [allMessages, setAllMessages] = useState<IMessage[]>([]);
 
   const [newMessage, setNewMessage] = useState("");
@@ -59,13 +64,14 @@ export default function ApplicationProvider(
     <ApplicationContext.Provider
       value={{
         userId,
+        conversation,
         allMessages,
         newMessage,
         setNewMessage: updateNewMessage,
         sendNewMessage,
       }}
     >
-      {children}
+      {rest.children}
     </ApplicationContext.Provider>
   );
 }

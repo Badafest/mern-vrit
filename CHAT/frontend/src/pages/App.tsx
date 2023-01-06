@@ -3,6 +3,7 @@ import { ConversationsContext } from "../context/Conversations";
 
 import Sidebar from "./App/Sidebar";
 import ApplicationBody from "./App/ApplicationBody";
+import ApplicationProvider from "../context/Application";
 
 export interface IConversation {
   _id: string;
@@ -41,9 +42,11 @@ export default function App() {
           addConversation: addConversation,
         }}
       />
-      <ApplicationBody
+      <ApplicationProvider
         conversation={(conversations || []).find((item) => item._id === active)}
-      />
+      >
+        <ApplicationBody />
+      </ApplicationProvider>
     </div>
   );
 }

@@ -1,14 +1,8 @@
 import { useContext } from "react";
 import { ApplicationContext } from "../../context/Application";
-import { IConversation } from "../App";
 
-interface IApplicationBodyProps {
-  conversation: IConversation | undefined;
-}
-
-export default function ApplicationBody({
-  conversation,
-}: IApplicationBodyProps) {
+export default function ApplicationBody() {
+  const { conversation } = useContext(ApplicationContext);
   return (
     <div className="flex-grow bg-gray-600 flex flex-col px-2 gap-2">
       {conversation ? (

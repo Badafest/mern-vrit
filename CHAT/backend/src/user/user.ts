@@ -26,14 +26,16 @@ const UserSchema = new mongoose.Schema<IUser>({
 });
 
 UserSchema.pre("save", async function () {
-  if (
-    !this.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/) //minimum 8 character, one lowercase, one uppercase and one number
-  ) {
-    throw new Error("Password validation failed");
+  if (this.isModified("password")) {
+    if (
+      !this.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/) //minimum 8 character, one lowercase, one uppercase and one number
+    ) {
+      throw new Error("Password validation failed");
+    }
+    const salt = await bcrypt.genSalt(ENVIRONMENT.SALT_ROUND);
+    const hashedPassword = await bcrypt.hash(this.password, salt);
+    this.password = hashedPassword;
   }
-  const salt = await bcrypt.genSalt(ENVIRONMENT.SALT_ROUND);
-  const hashedPassword = await bcrypt.hash(this.password, salt);
-  this.password = hashedPassword;
 });
 
 const User = mongoose.model("user", UserSchema);

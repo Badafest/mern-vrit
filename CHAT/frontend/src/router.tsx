@@ -1,6 +1,8 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import Protected from "./components/Protected";
+import { ConversationsProvider } from "./context/Conversations";
 import App from "./pages/App";
+import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -15,7 +17,11 @@ export default createBrowserRouter([
         children: [
           {
             path: "/app",
-            element: <App />,
+            element: (
+              <ConversationsProvider>
+                <App />
+              </ConversationsProvider>
+            ),
           },
           {
             path: "/",
@@ -33,7 +39,7 @@ export default createBrowserRouter([
       },
       {
         path: "/forgotPassword",
-        element: <div>No one can save you now :(</div>,
+        element: <ForgotPassword />,
       },
     ],
   },
