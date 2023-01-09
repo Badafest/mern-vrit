@@ -94,7 +94,7 @@ const FilterMenu = function ({
   return (
     <div
       className={
-        show ? "md:max-w-5/12 p-4 flex flex-col bg-white rounded-md" : "p-4"
+        show ? "md:w-1/3 p-4 flex flex-col bg-white rounded-md" : "p-4"
       }
     >
       <div className="flex gap-2 items-center justify-center my-2">

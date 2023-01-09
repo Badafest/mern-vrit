@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import Protected from "./components/Protected";
 import { ConversationsProvider } from "./context/Conversations";
+import UserProvider from "./context/User";
 import App from "./pages/App";
 import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
@@ -18,9 +19,11 @@ export default createBrowserRouter([
           {
             path: "/app",
             element: (
-              <ConversationsProvider>
-                <App />
-              </ConversationsProvider>
+              <UserProvider>
+                <ConversationsProvider>
+                  <App />
+                </ConversationsProvider>
+              </UserProvider>
             ),
           },
           {

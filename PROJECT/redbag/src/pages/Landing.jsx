@@ -18,8 +18,10 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="w-full">
-      <Carousel images={["/assets/logo.svg", "/assets/redbag.png"]} />
+    <div className="w-full md:w-11/12">
+      <div className="md:w-2/3 mx-auto">
+        <Carousel images={["/assets/logo.svg", "/assets/redbag.png"]} />
+      </div>
       <ProductBanner
         products={trending}
         viewAllLink="/products?category=Trending"

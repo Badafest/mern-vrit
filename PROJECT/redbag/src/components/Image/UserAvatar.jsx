@@ -6,6 +6,7 @@ export default function UserAvatar({ user, size }) {
     <ClippedImg
       src={user.avatar}
       width={`${size}px`}
+      ratio={"1 / 1"}
       radius={`${size / 2}px`}
       alt={user.username}
     />

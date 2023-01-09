@@ -1,16 +1,14 @@
 import ConversationService from "./conversation.service";
-import { Request } from "express";
 import Controller from "../utilities/Controller";
+import { IExtendedReq } from "../user/user.middleware";
 
 const ConversationController = {
   create: Controller(
-    async (req: Request) => {
-      const { name, members } = req.body as {
-        name: string;
-        members: string[];
-      };
+    async (req: IExtendedReq) => {
+      const { user_id } = req;
+      const { name } = req.body as { name: string };
 
-      const conversation = await ConversationService.create(name, members);
+      const conversation = await ConversationService.create(user_id, name);
       return { conversation };
     },
     "Conversation created successfully",
@@ -19,9 +17,12 @@ const ConversationController = {
   ),
 
   getAll: Controller(
-    async (_: Request) => ({
-      conversations: await ConversationService.getAll(),
-    }),
+    async (req: IExtendedReq) => {
+      const { user_id } = req;
+      return {
+        conversations: await ConversationService.getAll(user_id),
+      };
+    },
     "Conversations fetched successfully",
     "Failed to fetch conversations",
     400

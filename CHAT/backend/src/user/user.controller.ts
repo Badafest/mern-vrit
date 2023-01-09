@@ -28,6 +28,7 @@ const UserController = {
         password
       );
       return {
+        name,
         access_token,
         refresh_token,
       };

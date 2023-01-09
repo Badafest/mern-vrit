@@ -24,7 +24,7 @@ export default function Carousel({ images }) {
             active === index ? "opacity-1" : "h-0 overflow-hidden opacity-0"
           }
         >
-          <ClippedImg src={image} width="100%" height="28rem" />
+          <ClippedImg src={image} width="100%" ratio={"16 / 9"} />
         </div>
       ))}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex justify-center gap-2 m-2">

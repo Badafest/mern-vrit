@@ -27,6 +27,7 @@ export default function Login() {
       const password = data.get("password");
       try {
         const { data } = await axios.post("/user/login", { name, password });
+        localStorage.setItem("name", data.name);
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
         navigate("/app");

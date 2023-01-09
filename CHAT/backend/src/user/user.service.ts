@@ -5,7 +5,7 @@ import { generateAToken } from "../helpers";
 import ENVIRONMENT from "../config/vars";
 
 interface IUserService {
-  createUser(name: string, password: string): Promise<{ user: string }>;
+  createUser(name: string, password: string): Promise<{ name: string }>;
   logInUser(
     name: string,
     password: string
@@ -27,7 +27,6 @@ class UserService implements IUserService {
     if (!user) {
       throw new Error("Username or password is incorrect");
     }
-    console.log(password, user.password);
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       throw new Error("Username or password is incorrect");
@@ -42,13 +41,13 @@ class UserService implements IUserService {
     );
     user.access_token = access_token;
     user.refresh_token = refresh_token;
-    user.save();
+    console.log(user);
     return { access_token, refresh_token };
   }
 
   async createUser(name: string, password: string) {
     const newUser = await this._model.create({ name, password });
-    return { user: newUser.name };
+    return { name: newUser.name };
   }
 }
 

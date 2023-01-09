@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAll } from "../slices/vendor.slice";
 import UserAvatar from "../components/Image/UserAvatar";
 import { Link } from "react-router-dom";
+import Carousel from "../components/Carousel";
+import ClippedImg from "../components/Image/ClippedImage";
 
 export default function () {
   const vendors = useSelector((state) => state.vendor.value);
@@ -14,6 +16,14 @@ export default function () {
 
   return (
     <div className="flex flex-wrap max-w-3xl gap-2 justify-center">
+      <div className="w-full">
+        <ClippedImg
+          src={"assets/redbag.png"}
+          width="100%"
+          ratio="16 / 9"
+          radius="12px"
+        />
+      </div>
       {vendors.map((vendor, index) => (
         <Link
           to={`/products?vendor=${vendor.name}`}
