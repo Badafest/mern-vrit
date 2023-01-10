@@ -1,43 +1,21 @@
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 
-interface IUserState {
-  name: string;
-  access_token: string;
-  refresh_token: string;
-}
-
 interface IUserContext {
-  user: IUserState;
-  updateUser: (
-    name: string,
-    access_token: string,
-    refresh_token: string
-  ) => void;
+  user?: { name: string };
+  updateUser?: (name: string) => void;
 }
 
-export const UserContext = createContext<IUserContext | null>(null);
+export const UserContext = createContext<IUserContext>({});
 
 export default function UserProvider({ children }: PropsWithChildren) {
-  const [user, setUser] = useState<IUserState>({
-    name: "",
-    access_token: "",
-    refresh_token: "",
-  });
+  const [user, setUser] = useState({ name: "" });
 
   useEffect(() => {
-    setUser({
-      name: localStorage.getItem("name") || "",
-      access_token: localStorage.getItem("access_token") || "",
-      refresh_token: localStorage.getItem("refresh_token") || "",
-    });
-  }, [localStorage]);
+    setUser({ name: localStorage.getItem("name") || "" });
+  }, []);
 
-  function updateUser(
-    name: string,
-    access_token: string,
-    refresh_token: string
-  ) {
-    setUser({ name, access_token, refresh_token });
+  function updateUser(name: string) {
+    setUser({ name });
   }
 
   return (

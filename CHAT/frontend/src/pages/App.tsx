@@ -14,9 +14,12 @@ export interface IConversation {
     }
   ];
   name: string;
+  admin: string;
+  requests: [string];
 }
 
 export interface IMessage {
+  _id: string;
   type: string;
   message: string;
   from_id: string;
@@ -33,7 +36,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex w-full min-h-screen text-white bg-gray-700">
+    <div className="flex w-full min-h-screen text-white bg-gray-700 overflow-y-hidden">
       <Sidebar
         {...{
           conversations: conversations,

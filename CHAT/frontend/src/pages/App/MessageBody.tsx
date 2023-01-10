@@ -9,7 +9,7 @@ interface IMessageBodyProps {
 export default function MessageBody({ message, from }: IMessageBodyProps) {
   return (
     <div className={`flex ${from ? "justify-start" : "justify-end"}`}>
-      <div className="py-2 px-4 bg-gray-700 h-fit rounded-lg max-w-md">
+      <div className="py-2 px-4 bg-gray-700 h-fit rounded-lg md:max-w-md">
         {from && (
           <div className="text-xs font-bold text-yellow-500">{from}</div>
         )}

@@ -4,7 +4,7 @@ import Message, { IMessage } from "./message";
 interface IMessageService {
   create(
     type: "text" | "image",
-    from_id: string,
+    from_id: mongoose.Types.ObjectId,
     message: string,
     conversation_id: string
   ): Promise<IMessage>;
@@ -24,7 +24,7 @@ class MessageService implements IMessageService {
 
   async create(
     type: "text" | "image",
-    from_id: string,
+    from_id: mongoose.Types.ObjectId | undefined,
     message: string,
     conversation_id: string
   ) {

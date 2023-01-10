@@ -23,7 +23,6 @@ const UserMiddleware = {
       const { name } = (await verifyAToken(token)) as { name: string };
       const user = await User.findOne({ name });
       if (!user || token !== user.access_token) {
-        console.log(name, user?.access_token);
         throw new Error("Failed to verify token");
       }
       (req as IExtendedReq).user_id = user._id;

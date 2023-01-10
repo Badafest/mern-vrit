@@ -24,6 +24,10 @@ const ConversationSchema = new mongoose.Schema<IConversation>(
       type: [Schema.Types.ObjectId],
       ref: User,
     },
+    requests: {
+      type: [Schema.Types.ObjectId],
+      ref: User,
+    },
   },
   { timestamps: true }
 );

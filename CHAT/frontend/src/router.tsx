@@ -19,11 +19,9 @@ export default createBrowserRouter([
           {
             path: "/app",
             element: (
-              <UserProvider>
-                <ConversationsProvider>
-                  <App />
-                </ConversationsProvider>
-              </UserProvider>
+              <ConversationsProvider>
+                <App />
+              </ConversationsProvider>
             ),
           },
           {

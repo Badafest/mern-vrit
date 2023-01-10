@@ -7,23 +7,27 @@ export interface IUser {
   password: string;
   access_token: string;
   refresh_token: string;
-  reset_token: string;
 }
 
-const UserSchema = new mongoose.Schema<IUser>({
-  name: {
-    type: String,
-    required: [true, "Username is required"],
-    match: /@[a-z_]+[0-9]*/,
-    maxlength: 16,
-    minlength: 8,
-    unique: true,
+const UserSchema = new mongoose.Schema<IUser>(
+  {
+    name: {
+      type: String,
+      required: [true, "Username is required"],
+      match: /@[a-z_]+[0-9]*/,
+      maxlength: 16,
+      minlength: 8,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
+    access_token: String,
+    refresh_token: String,
   },
-  password: {
-    type: String,
-    required: [true, "Password is required"],
-  },
-});
+  { timestamps: true }
+);
 
 UserSchema.pre("save", async function () {
   if (this.isModified("password")) {

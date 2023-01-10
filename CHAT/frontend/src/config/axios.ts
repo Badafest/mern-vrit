@@ -22,18 +22,17 @@ instance.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   function (response) {
     return response;
   },
   async function (error) {
     if (
-      error.response.status === 401 &&
+      error.response.status === 403 &&
       error.response.data.error === "jwt expired"
     ) {
-      const token = localStorage.getItem("refresh_token");
-      const { data } = await instance.post("/user/refresh_tokens", {
-        refresh_token: token,
+      const { data } = await instance.post("/user/refresh", {
+        refresh_token: localStorage.getItem("refresh_token"),
       });
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);

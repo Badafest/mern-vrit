@@ -1,10 +1,13 @@
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toast from "../components/Toast";
 import UserForm from "../components/UserForm";
 import axios from "../config/axios";
+import { UserContext } from "../context/User";
 
 export default function Login() {
+  const { updateUser } = useContext(UserContext);
+
   const loginFormRef = useRef<HTMLFormElement>(null);
 
   const [toast, setToast] = useState<{
@@ -30,6 +33,7 @@ export default function Login() {
         localStorage.setItem("name", data.name);
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
+        updateUser && updateUser(data.name);
         navigate("/app");
       } catch (error: any) {
         const { data } = error.response;

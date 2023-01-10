@@ -23,18 +23,29 @@ const UserController = {
         name: string;
         password: string;
       };
-      const { access_token, refresh_token } = await UserService.logInUser(
-        name,
-        password
-      );
+      const { user } = await UserService.logInUser(name, password);
       return {
-        name,
-        access_token,
-        refresh_token,
+        name: user.name,
+        access_token: user.access_token,
+        refresh_token: user.refresh_token,
       };
     },
     "User logged in successfully",
     "Failed to login user",
+    400
+  ),
+
+  refresh: Controller(
+    async (req: Request) => {
+      const { refresh_token } = req.body as { refresh_token: string };
+      const { user } = await UserService.refreshTokens(refresh_token);
+      return {
+        access_token: user.access_token,
+        refresh_token: user.refresh_token,
+      };
+    },
+    "Tokens refreshed successfully",
+    "Failed to refresh tokens",
     400
   ),
 };

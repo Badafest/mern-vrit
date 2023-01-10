@@ -28,7 +28,7 @@ export const ConversationsProvider = ({ children }: PropsWithChildren) => {
   };
 
   const addConversation = async (name: string) => {
-    await axios.post("/conversation", { name, members: [] });
+    await axios.post("/conversation", { name });
     getAllConversations();
   };
 

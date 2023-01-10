@@ -10,7 +10,7 @@ interface IConversationService {
   addMember(
     user_id: TUserID,
     conversation_name: string,
-    member_id: TUserID
+    member_id: string
   ): Promise<void>;
 }
 
@@ -33,15 +33,22 @@ class ConversationService implements IConversationService {
   async getAll(user_id: TUserID) {
     const allConversations = this._model
       .find({ members: user_id })
-      .populate("members")
-      .populate("members.name");
+      .populate("members", "name");
     return allConversations;
+  }
+
+  async getById(user_id: TUserID) {
+    const conversation = this._model.findById(user_id);
+    return conversation;
   }
 
   async requestAddMember(user_id: TUserID, conversation_name: string) {
     const conversation = await this._model.findOne({ name: conversation_name });
     if (!conversation) {
       throw new Error("Conversation not found");
+    }
+    if (user_id && conversation.members.includes(user_id)) {
+      throw new Error("Already a member");
     }
     if (user_id && conversation.requests.includes(user_id)) {
       throw new Error("Request already exists");
@@ -53,25 +60,38 @@ class ConversationService implements IConversationService {
   async addMember(
     user_id: TUserID,
     conversation_name: string,
-    member_id: TUserID
+    member_id: string
   ) {
+    if (!member_id) {
+      throw new Error("Member id is required");
+    }
+
     const conversation = await this._model.findOne({ name: conversation_name });
     if (!conversation) {
       throw new Error("Conversation not found");
     }
 
-    if (conversation.admin !== user_id) {
+    if (conversation.admin.toString !== user_id?.toString) {
       throw new Error("Not authorized");
     }
 
-    if (member_id && !conversation.requests.includes(member_id)) {
+    const memberId = new mongoose.Types.ObjectId(member_id);
+
+    if (memberId && conversation.members.includes(memberId)) {
+      throw new Error("Already a member");
+    }
+
+    if (!conversation.requests.includes(memberId)) {
       throw new Error("Member has not requested yet");
     }
 
-    conversation.requests = conversation.requests.filter(
-      (item) => item !== member_id
-    );
-    member_id && conversation.members.push(member_id);
+    await conversation.updateOne({
+      $pull: {
+        requests: memberId,
+      },
+    });
+
+    conversation.members.push(memberId);
     await conversation.save();
   }
 }

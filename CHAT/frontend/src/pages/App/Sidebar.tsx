@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { IConversation } from "../App";
 
 interface ISidebarProps {
@@ -11,11 +13,30 @@ export default function Sidebar({
   conversations,
   active,
   handleClickConversation,
+  addConversation,
 }: ISidebarProps) {
+  const newConversation = useRef<HTMLInputElement>(null);
+
+  const handleAddConversation = () => {
+    if (newConversation.current?.value.length)
+      addConversation(newConversation.current?.value);
+  };
+
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
+
   return (
-    <div className="w-1/3 max-w-sm flex flex-col gap-2">
-      <header className="mx-4 border-b border-gray-500 py-2 px-4 text-center text-lg">
-        Chat App
+    <div className="w-1/3 max-w-sm min-w-full md:min-w-max flex flex-col gap-2">
+      <header className="mx-4 border-b border-gray-500 py-2 px-4 flex justify-between items-center text-lg">
+        <span>Chat App</span>
+        <div className="cursor-pointer flex items-center justify-center bg-gray-600 rounded w-10 h-10 hover:bg-gray-500 active:bg-gray-800">
+          <span className="mui_icon" onClick={handleLogOut}>
+            logout
+          </span>
+        </div>
       </header>
       <main className="flex flex-col gap-1">
         {conversations.map((conversation, index) => (
@@ -32,9 +53,25 @@ export default function Sidebar({
               {conversation?.name[0]}
             </div>
             <div className="flex-grow px-4">{conversation?.name}</div>
-            <div className="rounded-full w-3 h-3 border-2 flex-shrink-0 bg-green-500"></div>
           </div>
         ))}
+        <form
+          className="px-2 border-t border-gray-500 pt-4"
+          onSubmit={handleAddConversation}
+        >
+          <label htmlFor="new-conversation">New Conversation</label>
+          <div className="flex justify-between items-center gap-2">
+            <input
+              id="new-conversation"
+              name="new-conversation"
+              className="bg-gray-600 rounded px-4 py-2 flex-grow outline-none focus:bg-gray-800"
+              ref={newConversation}
+            />
+            <button className="cursor-pointer flex items-center justify-center bg-gray-600 rounded w-10 h-10 hover:bg-gray-500 active:bg-gray-800">
+              <span className="mui_icon">add</span>
+            </button>
+          </div>
+        </form>
       </main>
     </div>
   );
