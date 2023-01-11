@@ -14,8 +14,10 @@ export default function NewMessageForm() {
       </div>
       <textarea
         className="w-full rounded bg-gray-600 px-4 py-2 outline-none focus:bg-gray-800 resize-none max-h-48 overflow-auto"
-        rows={Array.from((newMessage || "").matchAll(/\n/g)).length + 1}
-        value={newMessage}
+        rows={
+          Array.from((newMessage?.message || "").matchAll(/\n/g)).length + 1
+        }
+        value={newMessage?.message}
         onChange={(event) => setNewMessage(event.target.value)}
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {

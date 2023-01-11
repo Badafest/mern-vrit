@@ -19,6 +19,7 @@ const ConversationController = {
   getAll: Controller(
     async (req: IExtendedReq) => {
       const { user_id } = req;
+      console.log(user_id);
       return {
         conversations: await ConversationService.getAll(user_id),
       };

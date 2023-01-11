@@ -19,6 +19,7 @@ wss.on("connection", async function (ws: WebSocket, request: any) {
     await socketService.insertClient(user_id, ws);
     console.log("socket connected => ", user_id);
   } catch (error) {
+    console.log(error);
     console.log("socket not connected => ", user_id);
     return;
   }

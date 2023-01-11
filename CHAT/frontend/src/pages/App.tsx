@@ -19,12 +19,12 @@ export interface IConversation {
 }
 
 export interface IMessage {
-  _id: string;
+  _id?: string;
   type: string;
   message: string;
-  from_id: string;
-  conversation_id: string;
-  createdAt: string;
+  from_id?: string;
+  conversation_id?: string;
+  createdAt?: string;
 }
 
 export default function App() {

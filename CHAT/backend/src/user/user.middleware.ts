@@ -29,7 +29,7 @@ const UserMiddleware = {
       next();
     } catch (error) {
       console.log(error);
-      res.status(403).json({
+      return res.status(403).json({
         message: "Authentication failed",
         error: error instanceof Error ? error.message : error,
       });

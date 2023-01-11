@@ -22,14 +22,14 @@ const MessageController = {
       const members = conversation?.members.filter(
         (member) => member.toString() !== user_id?.toString()
       );
+      // const members = conversation?.members; // removed filter for quick response
       if (members?.length) {
-        await Promise.all(
-          members.map(async (member) => {
-            const client = await socketService.getClient(member.toString());
-            client && client.socket.send(JSON.stringify(newMessage));
-          })
-        );
+        members.forEach(async (member) => {
+          const client = await socketService.getClient(member.toString());
+          client && client.socket.send(JSON.stringify(newMessage));
+        });
       }
+      // return {};
       return { newMessage };
     },
     "Message created successfully",

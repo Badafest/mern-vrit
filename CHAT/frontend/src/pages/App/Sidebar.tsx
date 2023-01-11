@@ -56,7 +56,7 @@ export default function Sidebar({
           </div>
         ))}
         <form
-          className="px-2 border-t border-gray-500 pt-4"
+          className="px-4 border-t border-gray-500 pt-4"
           onSubmit={handleAddConversation}
         >
           <label htmlFor="new-conversation">New Conversation</label>

@@ -1,6 +1,7 @@
 import {
   createContext,
   PropsWithChildren,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -14,7 +15,7 @@ interface IApplicationContext {
   userId?: string;
   conversation?: IConversation;
   allMessages?: IMessage[];
-  newMessage?: string;
+  newMessage?: INewMessage;
   socketMessage?: IMessage;
   setNewMessage: (message: string) => void;
   sendNewMessage: (event: Event | FormEvent) => void;
@@ -29,6 +30,11 @@ interface IApplicationContextProps extends PropsWithChildren {
   conversation: IConversation | undefined;
 }
 
+interface INewMessage {
+  message: string;
+  type: "text" | "image";
+}
+
 export default function ApplicationProvider({
   conversation,
   ...rest
@@ -37,7 +43,10 @@ export default function ApplicationProvider({
 
   const [allMessages, setAllMessages] = useState<IMessage[]>([]);
 
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState<INewMessage>({
+    message: "",
+    type: "text",
+  });
 
   const [userId, setUserId] = useState<string | undefined>("");
 
@@ -64,34 +73,49 @@ export default function ApplicationProvider({
     }
   }, [conversation]);
 
-  socket?.addEventListener("open", () => {
-    console.log("Socket connected");
-  });
+  useEffect(() => {
+    if (socket) {
+      socket.addEventListener("open", () => {
+        console.log("Socket connected");
+      });
 
-  socket?.addEventListener("message", (event) => {
-    console.log("message recieved from ws server");
-    const socketMessage = JSON.parse(event.data) as unknown as IMessage;
-    setAllMessages((prev) => [
-      ...prev.filter((msg) => msg._id !== socketMessage._id),
-      socketMessage,
-    ]);
-  });
+      const onMessage = (event: any) => {
+        console.log("message received from ws server");
+        const socketMessage = JSON.parse(event.data) as unknown as IMessage;
+        setAllMessages((prev) => [...prev, socketMessage]);
+      };
+
+      socket.addEventListener("message", onMessage);
+
+      return () => {
+        socket?.removeEventListener("message", onMessage);
+      };
+    }
+  }, [socket]);
 
   const sendNewMessage = async (event: Event | FormEvent) => {
     event.preventDefault();
-    setNewMessage((_) => "");
-    if (newMessage.length > 0) {
-      const { data } = await axios.post("/conversation/message", {
-        message: newMessage,
-        type: "text",
+    setNewMessage((_) => ({ message: "", type: "text" }));
+    setAllMessages((prev) => [
+      ...prev,
+      {
+        type: newMessage?.type || "text",
+        message: newMessage?.message || "",
+      },
+    ]);
+    if (newMessage && newMessage.message.length > 0) {
+      await axios.post("/conversation/message", {
+        ...newMessage,
         conversation_id: conversation?._id,
       });
-      setAllMessages((prev) => [...prev, data.newMessage]);
     }
   };
 
   const updateNewMessage = (message: string) => {
-    setNewMessage((_) => message);
+    setNewMessage((_) => ({
+      message,
+      type: "text",
+    }));
   };
 
   return (
