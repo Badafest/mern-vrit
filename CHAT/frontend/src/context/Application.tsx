@@ -1,7 +1,6 @@
 import {
   createContext,
   PropsWithChildren,
-  useCallback,
   useContext,
   useEffect,
   useState,
@@ -65,7 +64,7 @@ export default function ApplicationProvider({
   }, [userId]);
 
   useEffect(() => {
-    if (conversation) {
+    if (conversation && conversation.members) {
       getAllMessages(conversation);
       setUserId(
         conversation.members.find((member) => member.name === user?.name)?._id

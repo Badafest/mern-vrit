@@ -11,11 +11,11 @@ export default function Messages({ conversation }: IMessagesProps) {
   const { userId, allMessages } = useContext(ApplicationContext);
   const endOfMain = useRef<HTMLDivElement>(null);
 
-  const whoIsSender = (from_id: string) => {
+  const whoIsSender = (from_id: string | undefined) => {
     if (from_id === userId) {
       return undefined;
     } else {
-      return findMemberName(from_id);
+      return from_id && findMemberName(from_id);
     }
   };
 

@@ -38,10 +38,12 @@ const MessageController = {
   ),
 
   fetchByConversation: Controller(
-    async (req: Request) => {
+    async (req: IExtendedReq) => {
+      const { user_id } = req;
       const { conversation_id } = req.params;
       const messages = await MessageService.fetchByConversation(
-        conversation_id
+        conversation_id,
+        user_id
       );
       return {
         messages,

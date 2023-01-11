@@ -15,7 +15,12 @@ export interface IConversation {
   ];
   name: string;
   admin: string;
-  requests: [string];
+  requests: [
+    {
+      name: string;
+      _id: string;
+    }
+  ];
 }
 
 export interface IMessage {
@@ -28,7 +33,7 @@ export interface IMessage {
 }
 
 export default function App() {
-  const { conversations, addConversation } = useContext(ConversationsContext);
+  const { conversations } = useContext(ConversationsContext);
   const [active, setActive] = useState("");
 
   const handleClickConversation = (_id: string) => {
@@ -39,10 +44,8 @@ export default function App() {
     <div className="flex w-full min-h-screen text-white bg-gray-700 overflow-y-hidden">
       <Sidebar
         {...{
-          conversations: conversations,
           active,
           handleClickConversation,
-          addConversation: addConversation,
         }}
       />
       <ApplicationProvider

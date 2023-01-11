@@ -31,14 +31,19 @@ class ConversationService implements IConversationService {
   }
 
   async getAll(user_id: TUserID) {
-    const allConversations = this._model
+    const allConversations = await this._model
       .find({ members: user_id })
-      .populate("members", "name");
-    return allConversations;
+      .populate("members", "name")
+      .populate("requests", "name");
+    const reqConversations = await this._model.find(
+      { requests: user_id },
+      "_id name"
+    );
+    return [...allConversations, ...reqConversations];
   }
 
   async getById(user_id: TUserID) {
-    const conversation = this._model.findById(user_id);
+    const conversation = await this._model.findById(user_id);
     return conversation;
   }
 

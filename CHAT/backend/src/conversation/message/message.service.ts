@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Conversation from "../conversation";
 import Message, { IMessage } from "./message";
 
 interface IMessageService {
@@ -8,7 +9,10 @@ interface IMessageService {
     message: string,
     conversation_id: string
   ): Promise<IMessage>;
-  fetchByConversation(conversation_id: string): Promise<IMessage[]>;
+  fetchByConversation(
+    conversation_id: string,
+    user_id: mongoose.Types.ObjectId | undefined
+  ): Promise<IMessage[]>;
 }
 
 class MessageService implements IMessageService {
@@ -17,7 +21,17 @@ class MessageService implements IMessageService {
     this._model = _model;
   }
 
-  async fetchByConversation(conversation_id: string) {
+  async fetchByConversation(
+    conversation_id: string,
+    user_id: mongoose.Types.ObjectId | undefined
+  ) {
+    const conversation = await Conversation.findById(conversation_id);
+    if (!conversation) {
+      throw new Error("Conversation not found");
+    }
+    if (!user_id || !conversation.members.includes(user_id)) {
+      throw new Error("User is not a member");
+    }
     const messages = await this._model.find({ conversation_id });
     return messages;
   }
