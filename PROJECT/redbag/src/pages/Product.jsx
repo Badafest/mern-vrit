@@ -132,9 +132,12 @@ const ProductHead = ({ product, handleAddFavorite, isInFavorites }) => (
         favorite
       </button>
     </div>
-    <div className="flex justify-center text-sm flex-wrap">
+    <div className="flex justify-center text-sm flex-wrap gap-x-4 gap-y-2">
       {product.categories.map((category, index) => (
-        <div key={index} className="px-1 text-contrast_dark">
+        <div
+          key={index}
+          className="bg-tertiary_dark text-white rounded px-2 py-1"
+        >
           {category}
         </div>
       ))}

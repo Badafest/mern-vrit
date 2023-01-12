@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import ProductBanner from "../components/Product/ProductBanner";
 import { fetchFiltered } from "../helpers";
+import promotions from "../imgs/promotion";
 
 export default function Landing() {
   const [trending, setTrending] = useState([]);
@@ -20,7 +21,7 @@ export default function Landing() {
   return (
     <div className="w-full md:w-11/12">
       <div className="md:w-2/3 mx-auto">
-        <Carousel images={["/assets/logo.svg", "/assets/redbag.png"]} />
+        <Carousel images={promotions} />
       </div>
       <ProductBanner
         products={trending}

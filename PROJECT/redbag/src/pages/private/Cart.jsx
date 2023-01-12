@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchUserCart } from "../../slices/cart.slice";
+import { fetchUserCart, setPayment } from "../../slices/cart.slice";
+import ClippedImage from "../../components/Image/ClippedImage";
+import paymentLinks from "../../config/paymentLinks.json";
 
 export default function Cart() {
   const products = useSelector((state) => state.cart.products);
+  const method = useSelector((state) => state.cart.payment);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -13,18 +16,6 @@ export default function Cart() {
 
   return (
     <div className="md:w-8/12 bg-white shadow-md rounded-lg flex flex-col gap-2 p-2">
-      {products.length ? (
-        <div className="flex flex-col gap-2">
-          <CartItems products={products} />
-          <Checkout />
-        </div>
-      ) : (
-        <div className="flex flex-col h-4/6 items-center justify-center text-gray-500">
-          <p>Your cart is empty.</p>
-          <p className="text-sm"> Add products to see them here.</p>
-        </div>
-      )}
-
       <Link
         to="/products"
         className="btn btn-primary flex justify-center items-center md:w-1/2 mx-auto"
@@ -32,21 +23,76 @@ export default function Cart() {
         <span className="icon_text text-2xl pr-2">add</span>
         <span>Add Products</span>
       </Link>
+      {products.length ? (
+        <div className="flex flex-col gap-2">
+          <CartItems products={products} />
+          <div className="flex flex-col md:flex-row gap-2 items-center justify-end">
+            <PaymentOptions method={method} />
+            <Checkout method={method} />
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col h-4/6 items-center justify-center text-gray-500">
+          <p>Your cart is empty.</p>
+          <p className="text-sm"> Add products to see them here.</p>
+        </div>
+      )}
     </div>
   );
 }
 
-const Checkout = () => (
+const PaymentOptions = ({ method }) => {
+  const dispatch = useDispatch();
+  return (
+    <>
+      <PaymentOption
+        img="/assets/payment/card.svg"
+        name="Pay with Card"
+        checked={method === "card"}
+        onClick={() => dispatch(setPayment("card"))}
+      />
+      <PaymentOption
+        img="/assets/payment/paypal.svg"
+        name="Pay with PayPal"
+        checked={method === "paypal"}
+        onClick={() => dispatch(setPayment("paypal"))}
+      />
+      <PaymentOption
+        img="/assets/payment/cod.svg"
+        name="Cash on Delivery"
+        checked={method === "cod"}
+        onClick={() => dispatch(setPayment("cod"))}
+      />
+    </>
+  );
+};
+
+const Checkout = ({ method }) => (
   <div className="flex justify-end p-2">
-    <Link
-      to="/app/pay"
+    <a
+      href={paymentLinks[method]}
+      target="_blank"
       className="btn btn-primary flex justify-center items-center w-full md:w-max"
     >
       <span className="icon_text text-2xl pr-2">payments</span>
       <span>Checkout</span>
-    </Link>
+    </a>
   </div>
 );
+
+const PaymentOption = ({ img, name, checked, onClick }) => {
+  return (
+    <div
+      className={`cursor-pointer flex md:flex-col gap-2 items-center rounded py-2 px-4 hover:bg-light border ${
+        checked ? "border-primary" : "border-tertiary"
+      }`}
+      onClick={onClick}
+    >
+      <ClippedImage src={img} width="64px" ratio="1 / 1" radius="32px" />
+      <span className="text-primary font-bold">{name}</span>
+    </div>
+  );
+};
 
 const CartItems = ({ products }) => (
   <div className="min-h-4/6 m-2">

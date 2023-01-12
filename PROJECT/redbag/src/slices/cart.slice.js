@@ -18,6 +18,7 @@ export const CartSlice = createSlice({
       //   quantity: 0,
       // },
     ],
+    payment: "card",
   },
 
   reducers: {
@@ -43,6 +44,10 @@ export const CartSlice = createSlice({
     clearCart: (state) => {
       state.products = [];
     },
+
+    setPayment: (state, { payload }) => {
+      state.payment = payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -52,7 +57,12 @@ export const CartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, changeQuantity, clearCart } =
-  CartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  changeQuantity,
+  clearCart,
+  setPayment,
+} = CartSlice.actions;
 
 export default CartSlice.reducer;

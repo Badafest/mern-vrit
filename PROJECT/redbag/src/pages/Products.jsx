@@ -142,7 +142,7 @@ const FilterMenu = function ({
           <div className="border-b border-tertiary p-4">
             <div>Price</div>
             <form
-              className="max-h-48 overflow-auto text-sm p-2 flex items-center"
+              className="max-h-48 overflow-auto text-sm p-2 flex flex-col items-start"
               ref={priceRef}
             >
               <span className="px-2">NPR</span>
