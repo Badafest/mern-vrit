@@ -23,6 +23,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import Category from "./pages/admin/Category";
 import Vendor from "./pages/admin/Vendor";
 import ProductAdmin from "./pages/admin/Product";
+import Order from "./pages/private/Order";
 
 export default createBrowserRouter([
   {
@@ -81,6 +82,10 @@ export default createBrowserRouter([
           {
             path: "/app/cart",
             element: <Cart />,
+          },
+          {
+            path: "/app/order",
+            element: <Order />,
           },
           {
             path: "/app/favorites",

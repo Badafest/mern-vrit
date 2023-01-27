@@ -1,18 +1,39 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { fetchUserCart, setPayment } from "../../slices/cart.slice";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  clearCart,
+  fetchUserCart,
+  setBillAmount,
+  setPayment,
+} from "../../slices/cart.slice";
 import ClippedImage from "../../components/Image/ClippedImage";
-import paymentLinks from "../../config/paymentLinks.json";
+import {
+  createOrder,
+  getBillTotalCost,
+  getDeliveryPrice,
+  getTotalCost,
+} from "../../helpers";
 
 export default function Cart() {
-  const products = useSelector((state) => state.cart.products);
-  const method = useSelector((state) => state.cart.payment);
+  const { products, payment } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchUserCart());
   }, []);
+
+  useEffect(() => {
+    dispatch(setBillAmount(getBillTotalCost(products)));
+  }, [products]);
+
+  const navigate = useNavigate();
+
+  const handleCreateOrder = async () => {
+    await createOrder(products, payment);
+    dispatch(clearCart());
+    navigate("/app/order");
+  };
 
   return (
     <div className="md:w-8/12 bg-white shadow-md rounded-lg flex flex-col gap-2 p-2">
@@ -27,8 +48,8 @@ export default function Cart() {
         <div className="flex flex-col gap-2">
           <CartItems products={products} />
           <div className="flex flex-col md:flex-row gap-2 items-center justify-end">
-            <PaymentOptions method={method} />
-            <Checkout method={method} />
+            <PaymentOptions payment={payment} />
+            <Checkout handleCreateOrder={handleCreateOrder} />
           </div>
         </div>
       ) : (
@@ -41,44 +62,44 @@ export default function Cart() {
   );
 }
 
-const PaymentOptions = ({ method }) => {
+const PaymentOptions = ({ payment }) => {
   const dispatch = useDispatch();
   return (
     <>
       <PaymentOption
         img="/assets/payment/card.svg"
         name="Pay with Card"
-        checked={method === "card"}
+        checked={payment === "card"}
         onClick={() => dispatch(setPayment("card"))}
       />
       <PaymentOption
         img="/assets/payment/paypal.svg"
         name="Pay with PayPal"
-        checked={method === "paypal"}
+        checked={payment === "paypal"}
         onClick={() => dispatch(setPayment("paypal"))}
       />
       <PaymentOption
         img="/assets/payment/cod.svg"
         name="Cash on Delivery"
-        checked={method === "cod"}
+        checked={payment === "cod"}
         onClick={() => dispatch(setPayment("cod"))}
       />
     </>
   );
 };
 
-const Checkout = ({ method }) => (
-  <div className="flex justify-end p-2">
-    <a
-      href={paymentLinks[method]}
+const Checkout = ({ handleCreateOrder }) => {
+  return (
+    <button
       target="_blank"
       className="btn btn-primary flex justify-center items-center w-full md:w-max"
+      onClick={handleCreateOrder}
     >
       <span className="icon_text text-2xl pr-2">payments</span>
       <span>Checkout</span>
-    </a>
-  </div>
-);
+    </button>
+  );
+};
 
 const PaymentOption = ({ img, name, checked, onClick }) => {
   return (
@@ -131,37 +152,11 @@ const InvoiceItem = ({ product }) => (
   </>
 );
 
-const InvoiceTotal = ({ products }) => (
-  <div className="w-4/6 px-2 overflow-auto text-left md:w-1/6">
-    NPR {getBillTotalCost(products)}
-  </div>
-);
-
-const getDeliveryPrice = (price) => {
-  const priceCost = parseFloat(price);
-  if (priceCost <= 100) {
-    return "FREE";
-  }
-  if (priceCost <= 1000) {
-    return Math.round(3 * priceCost) / 100;
-  }
-  if (priceCost <= 10000) {
-    return Math.round(5 * priceCost) / 100;
-  }
-  return Math.min(Math.round(8 * priceCost) / 100, 5000);
+const InvoiceTotal = () => {
+  const { billAmount } = useSelector((state) => state.cart);
+  return (
+    <div className="w-4/6 px-2 overflow-auto text-left md:w-1/6">
+      {billAmount}
+    </div>
+  );
 };
-
-const getTotalCost = (price, quantity) => {
-  const priceCost = parseFloat(price);
-  const deliveryCost =
-    getDeliveryPrice(priceCost) === "FREE" ? 0 : getDeliveryPrice(priceCost);
-  const quantityCost = Math.round(quantity);
-  return Math.round((priceCost + deliveryCost) * quantityCost * 100) / 100;
-};
-
-const getBillTotalCost = (products) =>
-  Math.round(
-    products
-      .map((product) => getTotalCost(product.item.price, product.quantity))
-      .reduce((a, b) => a + b, 0) * 100
-  ) / 100;

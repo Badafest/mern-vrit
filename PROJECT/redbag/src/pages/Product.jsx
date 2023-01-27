@@ -16,6 +16,7 @@ import {
   fetchUserFavorites,
   removeFromFavorites,
 } from "../slices/favorites.slice";
+import UserAvatar from "../components/Image/UserAvatar";
 
 export default function Product() {
   const { id } = useParams();
@@ -37,11 +38,13 @@ export default function Product() {
   }, [id]);
 
   useEffect(() => {
-    axios.post("/user/cart", { cart });
+    axios.post("/user/cart", { cart }).catch((err) => console.log(err));
   }, [cart]);
 
   useEffect(() => {
-    axios.post("/user/favorites", { favorites });
+    axios
+      .post("/user/favorites", { favorites })
+      .catch((err) => console.log(err));
   }, [favorites]);
 
   const getQuantity = () => {
@@ -111,6 +114,9 @@ export default function Product() {
             />
           </div>
           <ProductFooter {...{ product }} />
+          {product.reviews.map((review) => (
+            <ProductReview key={review._id} review={review} />
+          ))}
         </div>
       )}
     </div>
@@ -198,6 +204,18 @@ const ProductFooter = ({ product }) => (
   </footer>
 );
 
+const ProductReview = ({ review }) => (
+  <div className="px-4 py-2 flex gap-2 mx-4 border border-tertiary my-2 rounded-lg">
+    <UserAvatar user={review.author} size={64} />
+    <div className="text-primary flex flex-col gap-2">
+      <div className="text-contrast_light">
+        <Stars no={review.rating} />
+      </div>
+      <div>{review.text}</div>
+    </div>
+  </div>
+);
+
 const getRating = (reviews) => {
   if (!reviews || reviews.length === 0) {
     return 5;
@@ -209,6 +227,15 @@ const getRating = (reviews) => {
 
 const RatingStars = ({ reviews }) => {
   const no = getRating(reviews);
+  return (
+    <>
+      <Stars no={no} />
+      <span className="text-sm p-1">{`${no} [${reviews.length}]`}</span>
+    </>
+  );
+};
+
+const Stars = ({ no }) => {
   const Complete = () =>
     Array(parseInt(no))
       .fill(1)
@@ -227,7 +254,6 @@ const RatingStars = ({ reviews }) => {
     <>
       <Complete />
       <Half />
-      <span className="text-sm p-1">{`${no} [${reviews.length}]`}</span>
     </>
   );
 };

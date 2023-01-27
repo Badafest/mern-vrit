@@ -4,6 +4,8 @@ const {
 } = require("../auth/auth.middleware");
 const UserController = require("./user.controller");
 
+const orderRouter = require("../order/order.routes");
+
 const router = require("express").Router();
 
 router.get("/me", verifyAccessToken, UserController.me);
@@ -31,5 +33,7 @@ router.post(
   verifyBuyerRole,
   UserController.dumpFavorites
 );
+
+router.use("/order", verifyAccessToken, verifyBuyerRole, orderRouter);
 
 module.exports = router;

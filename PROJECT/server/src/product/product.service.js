@@ -9,7 +9,7 @@ class ProductService {
   Product;
   Category;
   Vendor;
-  constructor(Product, Category) {
+  constructor(Product, Category, Vendor) {
     this.Product = Product;
     this.Category = Category;
     this.Vendor = Vendor;
@@ -57,7 +57,15 @@ class ProductService {
   }
 
   async fetchAll() {
-    const products = await this.Product.find({}).populate("vendor categories");
+    const products = await this.Product.find({})
+      .populate("vendor categories")
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "author",
+          populate: "name",
+        },
+      });
     return this.fillNames(products);
   }
 
@@ -69,9 +77,9 @@ class ProductService {
   }
 
   async fetchById(_id) {
-    const product = await this.Product.findById(_id).populate(
-      "vendor categories"
-    );
+    const product = await this.Product.findById(_id)
+      .populate("vendor categories")
+      .populate("reviews.author", "username avatar -_id");
     return this.fillNames([product]);
   }
 
@@ -120,7 +128,6 @@ class ProductService {
     }
 
     const pattern = new RegExp(`${query.replaceAll(" ", "|")}`, "i");
-    console.log(pattern);
 
     const products = await this.Product.find(
       {

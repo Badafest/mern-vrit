@@ -19,6 +19,7 @@ export const CartSlice = createSlice({
       // },
     ],
     payment: "card",
+    billAmount: 0,
   },
 
   reducers: {
@@ -48,6 +49,10 @@ export const CartSlice = createSlice({
     setPayment: (state, { payload }) => {
       state.payment = payload;
     },
+
+    setBillAmount: (state, { payload }) => {
+      state.billAmount = parseFloat(payload);
+    },
   },
 
   extraReducers: (builder) => {
@@ -63,6 +68,7 @@ export const {
   changeQuantity,
   clearCart,
   setPayment,
+  setBillAmount,
 } = CartSlice.actions;
 
 export default CartSlice.reducer;

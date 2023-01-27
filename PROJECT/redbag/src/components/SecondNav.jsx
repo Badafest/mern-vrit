@@ -37,6 +37,10 @@ export default function SecondNav() {
           <div className="text-xs">Favorites</div>
           <Indicator no={favCount} />
         </Link>
+        <Link to="/app/order" className="flex flex-col items-center relative">
+          <div className="icon bg-primary text-light">inventory</div>
+          <div className="text-xs">Orders</div>
+        </Link>
       </div>
     </div>
   );
