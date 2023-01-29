@@ -4,6 +4,7 @@ import { fetchAll } from "../slices/vendor.slice";
 import UserAvatar from "../components/Image/UserAvatar";
 import { Link } from "react-router-dom";
 import ClippedImg from "../components/Image/ClippedImage";
+import VendorImg from "../imgs/vendor.webp";
 
 export default function () {
   const vendors = useSelector((state) => state.vendor.value);
@@ -16,12 +17,7 @@ export default function () {
   return (
     <div className="flex flex-wrap max-w-3xl gap-2 justify-center">
       <div className="w-full">
-        <ClippedImg
-          src={"../imgs/vendor.webp"}
-          width="100%"
-          ratio="16 / 9"
-          radius="12px"
-        />
+        <ClippedImg src={VendorImg} width="100%" ratio="16 / 9" radius="12px" />
         {vendors ? <VendorList vendors={vendors} /> : <></>}
       </div>
     </div>
