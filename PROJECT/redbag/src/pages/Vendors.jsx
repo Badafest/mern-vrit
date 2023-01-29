@@ -17,7 +17,7 @@ export default function () {
     <div className="flex flex-wrap max-w-3xl gap-2 justify-center">
       <div className="w-full">
         <ClippedImg
-          src={"/src/imgs/vendor.webp"}
+          src={"../imgs/vendor.webp"}
           width="100%"
           ratio="16 / 9"
           radius="12px"
