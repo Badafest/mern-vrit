@@ -70,7 +70,7 @@ class OrderService {
   }
 
   async confirmOrder(order_id, user_id) {
-    const order = await this.Order.findById(order_id).populate("cart");
+    const order = await this.Order.findById(order_id).populate("cart.item");
     if (!order) {
       throw new Error("No order found");
     }
@@ -78,11 +78,13 @@ class OrderService {
       throw new Error("Not authorized");
     }
     order.isConfirmed = true;
-    order.cart.forEach((cartItem) => {
+    await order.save();
+
+    await order.cart.forEach(async (cartItem) => {
       cartItem.sold += 1;
       cartItem.stock -= 1;
+      await cartItem.save();
     });
-    await order.save();
   }
 
   async addReview(order_id, user_id, product_name, rating, review) {

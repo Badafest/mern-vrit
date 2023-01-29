@@ -41,5 +41,5 @@ const getRating = (reviews) => {
   }
   const ratings = reviews.map((review) => review.rating);
   const rating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
-  return rating;
+  return Math.round(rating * 100) / 100;
 };
