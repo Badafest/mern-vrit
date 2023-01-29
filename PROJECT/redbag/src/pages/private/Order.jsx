@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "../../config/axios";
 
 export default function Order() {
@@ -111,6 +112,7 @@ function OrderProducts({ order_id, products }) {
 }
 
 function ProductDetails({ product, order_id }) {
+  const navigate = useNavigate();
   const handleReview = async (rating, review) => {
     await axios.post("/user/order/review", {
       order_id,
@@ -118,6 +120,7 @@ function ProductDetails({ product, order_id }) {
       rating,
       review,
     });
+    navigate("/product/" + product.item._id);
   };
   return (
     <div className="flex flex-col items-center gap-2">
@@ -135,31 +138,7 @@ function ReviewForm({ handleReview }) {
 
   return (
     <div className="flex flex-col w-full gap-2">
-      <div className="flex gap-1 justify-center">
-        <span
-          onClick={() => setRating((prev) => (prev === 0 ? 1 : 0))}
-          className={`icon_text  cursor-pointer text-lg ${
-            rating > 0 ? "text-contrast_light" : "text-tertiary_dark"
-          }`}
-        >
-          star
-        </span>
-        {Array(4)
-          .fill(0)
-          .map((_, index) => (
-            <span
-              key={index}
-              onClick={() => setRating(index + 2)}
-              className={`icon_text cursor-pointer text-lg ${
-                rating > index + 1
-                  ? "text-contrast_light"
-                  : "text-tertiary_dark"
-              }`}
-            >
-              star
-            </span>
-          ))}
-      </div>
+      <Stars rating={rating} setRating={setRating} />
       <div className="flex flex-col gap-2 md:flex-row items-center">
         <input
           type="text"
@@ -177,6 +156,34 @@ function ReviewForm({ handleReview }) {
           Leave Review
         </button>
       </div>
+    </div>
+  );
+}
+
+function Stars({ rating, setRating }) {
+  return (
+    <div className="flex gap-1 justify-center">
+      <span
+        onClick={() => setRating((prev) => (prev === 0 ? 1 : 0))}
+        className={`icon_text  cursor-pointer text-lg ${
+          rating > 0 ? "text-contrast_light" : "text-tertiary_dark"
+        }`}
+      >
+        star
+      </span>
+      {Array(4)
+        .fill(0)
+        .map((_, index) => (
+          <span
+            key={index}
+            onClick={() => setRating(index + 2)}
+            className={`icon_text cursor-pointer text-lg ${
+              rating > index + 1 ? "text-contrast_light" : "text-tertiary_dark"
+            }`}
+          >
+            star
+          </span>
+        ))}
     </div>
   );
 }
