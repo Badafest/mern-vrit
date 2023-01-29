@@ -11,17 +11,17 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({}));
 
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (origin === CLIENT_URI) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by cors"));
-//       }
-//     },
-//   })
-// );
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (origin === CLIENT_URI) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by cors"));
+      }
+    },
+  })
+);
 
 app.use("/api/v1", router);
 
