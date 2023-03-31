@@ -6,6 +6,7 @@ export default function ProductCard({ product }) {
     <Link
       to={"/product/" + product._id}
       className="w-72 rounded-xl bg-white shadow-lg flex flex-col p-2 cursor-pointer h-96"
+      replace={true}
     >
       <div className="mx-auto">
         <ClippedImg
