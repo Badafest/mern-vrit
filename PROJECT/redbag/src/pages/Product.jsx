@@ -21,7 +21,9 @@ import UserAvatar from "../components/Image/UserAvatar";
 export default function Product() {
   const { id } = useParams();
 
-  const product = useSelector((state) => state.product.value[0]);
+  const product = useSelector(
+    (state) => state.product.value.length && state.product.value[0]
+  );
 
   const cart = useSelector((state) => state.cart.products);
 
