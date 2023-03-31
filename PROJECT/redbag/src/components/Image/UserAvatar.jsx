@@ -11,6 +11,9 @@ export default function UserAvatar({ user, size }) {
       alt={user.username}
     />
   ) : (
-    <Avatar size={size} initial={user.username[0].toUpperCase()} />
+    <Avatar
+      size={size}
+      initial={user.username ? user.username[0].toUpperCase() : ""}
+    />
   );
 }
