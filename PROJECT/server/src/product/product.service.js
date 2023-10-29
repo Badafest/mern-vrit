@@ -63,7 +63,7 @@ class ProductService {
         path: "reviews",
         populate: {
           path: "author",
-          populate: "name",
+          populate: "username",
         },
       });
     return this.fillNames(products);
