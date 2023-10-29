@@ -57,6 +57,7 @@ const ProductController = {
   },
 
   fetchFiltered: async (req, res) => {
+    console.log("HERE HERE")
     try {
       const { category, vendor, price, index, total } = req.body;
       const products = await ProductService.fetchFiltered(
