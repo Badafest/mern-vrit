@@ -9,19 +9,21 @@ const app = express();
 app.use(express.json({ limit: "510kb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// app.use(cors({}));
+app.use(cors());
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (origin === CLIENT_URI) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by cors"));
-      }
-    },
-  })
-);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       console.log("ORIGIN => ", origin);
+//       console.log("CLIENT URI => ", CLIENT_URI);
+//       if (origin === CLIENT_URI) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by cors"));
+//       }
+//     },
+//   })
+// );
 
 app.use("/api/v1", router);
 
